@@ -1,6 +1,7 @@
 package com.example.idanr.tinderforjavaclass;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,15 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent startLogin = new Intent(this, LoginActivity.class);
+        this.startActivity(startLogin);
     }
 
     @Override
