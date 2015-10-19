@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+
 
 public class MainActivity extends Activity {
 
@@ -20,8 +23,16 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        Intent startLogin = new Intent(this, LoginActivity.class);
-        this.startActivity(startLogin);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AccessToken token = AccessToken.getCurrentAccessToken();
+
+        if (token != null){
+            Intent matchedActivity = new Intent(MainActivity.this, UserMatchesActivity.class);
+            startActivity(matchedActivity );
+        } else {
+            Intent startLogin = new Intent(this, LoginActivity.class);
+            this.startActivity(startLogin);
+        }
     }
 
     @Override
