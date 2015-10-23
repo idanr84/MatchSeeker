@@ -2,32 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-a4c0fb5001ea17bf9c4ccf750bc85193f6e915fa.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.lorentzos.swipecards/library/1.0.9/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5448a69da935ad4e5a298423099c83818253d8d6">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-13cb67766b043ddcc53da9d46c2b3c6115958c61.jar" />
-    </item>
-    <item
         jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="a78bfd2ec508b123ee7c03f4006ba7996ef9a8dc">
         <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-51425d86a7982e718f73822de83f3fc0ec6ac6ee.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4d27a31721a05405cb1f24f42b3910a55aa78209.jar" />
     </item>
     <item
         jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
@@ -42,6 +21,27 @@
         revision="22.0.1"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-a1852dd8015826a998e4bafab5a674fd3d3533d8.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-4d27a31721a05405cb1f24f42b3910a55aa78209.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-cd5768f3cf806962dc764823f1317373b05fe1d5.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-a4c0fb5001ea17bf9c4ccf750bc85193f6e915fa.jar" />
     </item>
 
 </items>

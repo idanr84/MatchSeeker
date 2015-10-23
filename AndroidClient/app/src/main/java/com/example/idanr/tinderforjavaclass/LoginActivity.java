@@ -1,18 +1,13 @@
 package com.example.idanr.tinderforjavaclass;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.widget.TextView;
 
+import com.example.idanr.tinderforjavaclass.PotentialMatches.PotentialMatchesActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -35,19 +30,6 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login_activity);
 
 
-//        TextView customView = (TextView)
-//                LayoutInflater.from(this).inflate(R.layout.actionbar_custom_title_view_centered,
-//                        null);
-//
-//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-//                ActionBar.LayoutParams.MATCH_PARENT,
-//                ActionBar.LayoutParams.MATCH_PARENT, Gravity.CENTER );
-//
-//        customView.setText("Some centered text");
-//        getSupportActionBar().setCustomView(customView, params);
-
-
-
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (LoginButton) findViewById(R.id.login_button);
         mLoginButton.setReadPermissions("user_friends");
@@ -55,7 +37,7 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent startLogin = new Intent(LoginActivity.this, UserMatchesActivity.class);
+                Intent startLogin = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
                 LoginActivity.this.startActivity(startLogin);
             }
 

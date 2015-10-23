@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.idanr.tinderforjavaclass.PotentialMatches.PotentialMatchesActivity;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 
@@ -27,7 +28,7 @@ public class MainActivity extends Activity {
         AccessToken token = AccessToken.getCurrentAccessToken();
 
         if (token != null){
-            Intent matchedActivity = new Intent(MainActivity.this, UserMatchesActivity.class);
+            Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);
             startActivity(matchedActivity );
         } else {
             Intent startLogin = new Intent(this, LoginActivity.class);
