@@ -6,6 +6,8 @@
 
 package com.ServerSide;
 
+import com.restfb.types.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,39 +32,39 @@ public class UserLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String accessToken=request.getParameter("access_token");
-        String userId=request.getParameter("user_id");
-        if (accessToken==null){
+        String accessToken = request.getParameter("access_token");
+        String userId = request.getParameter("user_id");
+        if (accessToken == null){
             ApiResult result=new ApiResult("400","Parameter access_token missing",null);
             ServletHelper.writeResponse(result,response);
             return;
         }
-        if (userId==null){
+        if (userId == null){
             ApiResult result=new ApiResult("400","Parameter user_id missing",null);
             ServletHelper.writeResponse(result,response);
             return;
         }
         
         try{
-            FbHelper fh=new FbHelper(accessToken);
-            com.restfb.types.User user=fh.getMe();
-            List<com.restfb.types.Page> pages=fh.getAllLikes();
-            DbHelper dh=new DbHelper();
+            FbHelper fbHelper = new FbHelper(accessToken);
+            User user = fbHelper.getMe();
+            List<com.restfb.types.Page> pages = fbHelper.getAllLikes();
+            DbHelper dbHelper = new DbHelper();
             try{
-                dh.open();
-                dh.removeUser(userId);
-                dh.saveUser(userId, accessToken, user);
-                dh.removeUserLikes(userId);
-                dh.savePages(userId, pages);
-                dh.close();
-                ApiResult result=new ApiResult("200",null,null);
+                dbHelper.open();
+                dbHelper.removeUser(userId);
+                dbHelper.saveUser(userId, accessToken, user);
+                dbHelper.removeUserLikes(userId);
+                dbHelper.savePages(userId, pages);
+                dbHelper.close();
+                ApiResult result = new ApiResult("200",null,null);
                 ServletHelper.writeResponse(result,response);
             }catch(Exception ex){
-                dh.close();
+                dbHelper.close();
                 throw ex;
             }
         }catch(Exception ex){
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
+            ApiResult result = new ApiResult("400",ex.getMessage(),null);
             ServletHelper.writeResponse(result,response);
         }
     }
