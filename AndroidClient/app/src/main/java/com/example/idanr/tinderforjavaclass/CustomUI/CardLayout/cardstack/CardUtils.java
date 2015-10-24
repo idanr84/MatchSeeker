@@ -5,10 +5,10 @@ import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
 
 public class CardUtils {
-    final static int DIRECTION_TOP_LEFT = 0;
-    final static int DIRECTION_TOP_RIGHT = 1;
-    final static int DIRECTION_BOTTOM_LEFT = 2;
-    final static int DIRECTION_BOTTOM_RIGHT = 3;
+    public final static int DIRECTION_TOP_LEFT = 0;
+    public final static int DIRECTION_TOP_RIGHT = 1;
+    public final static int DIRECTION_BOTTOM_LEFT = 2;
+    public final static int DIRECTION_BOTTOM_RIGHT = 3;
 
     public static void scale(View v, int pixel){
         LayoutParams params = (LayoutParams)v.getLayoutParams();

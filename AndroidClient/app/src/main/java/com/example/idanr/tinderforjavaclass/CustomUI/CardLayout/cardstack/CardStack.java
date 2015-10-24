@@ -44,7 +44,7 @@ public class CardStack extends RelativeLayout {
         public void topCardTapped();
     }
 
-    public void discardTop(final int direction){
+    public void discardTop(final int direction,long animationDuration){
         mCardAnimator.discard(direction, new AnimatorListenerAdapter(){
             @Override
             public void onAnimationEnd(Animator arg0) {
@@ -59,7 +59,7 @@ public class CardStack extends RelativeLayout {
                 viewCollection.get(viewCollection.size()-1)
                         .setOnTouchListener(mOnTouchListener);
             }
-        });
+        },animationDuration);
     }
 
     public int getCurrIndex(){

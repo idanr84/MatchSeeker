@@ -2,14 +2,15 @@ package com.example.idanr.tinderforjavaclass.PotentialMatches;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack;
+import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
 import com.example.idanr.tinderforjavaclass.Model.User;
 import com.example.idanr.tinderforjavaclass.R;
-
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -21,29 +22,39 @@ import butterknife.ButterKnife;
  */
 public class PotentialMatchesActivity extends Activity {
 
-    @Bind(R.id.cardLayout) CardStack cardLayout;
+    @Bind(R.id.content_frame)
+    FrameLayout mContentContainer;
+
+    @Bind(R.id.left_drawer)
+    ListView mLeftDrawer;
+
     PotentialMatchesDataAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.user_matches_activity);
 
         ButterKnife.bind(this);
 
-        //add the view via xml or programmatically
-        cardLayout.setStackMargin(20);
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (mContentContainer != null) {
 
-        ArrayList<User> al = new ArrayList<User>();
-        al.add(new User("idan","31"));
-        al.add(new User("idan_1","31"));
-        al.add(new User("idan_2","31"));
-        al.add(new User("idan_3","31"));
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
 
-        mAdapter = new PotentialMatchesDataAdapter(this,al);
+            // Create a new Fragment to be placed in the activity layout
+            PotentialMatchesFragment potentialMatchesFragment = new PotentialMatchesFragment();
 
-        cardLayout.setAdapter(mAdapter);
+            // Add the fragment to the 'fragment_container' FrameLayout
+             getFragmentManager().beginTransaction()
+                    .add(R.id.content_frame, potentialMatchesFragment).commit();
+        }
+
     }
 }

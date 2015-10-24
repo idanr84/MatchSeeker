@@ -27,13 +27,16 @@ public class MainActivity extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AccessToken token = AccessToken.getCurrentAccessToken();
 
-        if (token != null){
-            Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);
-            startActivity(matchedActivity );
-        } else {
-            Intent startLogin = new Intent(this, LoginActivity.class);
-            this.startActivity(startLogin);
-        }
+        Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);
+        startActivity(matchedActivity );
+
+//        if (token != null){
+//            Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);
+//            startActivity(matchedActivity );
+//        } else {
+//            Intent startLogin = new Intent(this, LoginActivity.class);
+//            this.startActivity(startLogin);
+//        }
     }
 
     @Override

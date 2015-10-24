@@ -40,8 +40,8 @@ public class CardAnimator{
             //setup basic layout
             LayoutParams params = (LayoutParams) v.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            params.width = LayoutParams.MATCH_PARENT;
-            params.height = LayoutParams.MATCH_PARENT;
+            params.width = LayoutParams.WRAP_CONTENT;
+            params.height = LayoutParams.WRAP_CONTENT;
 
             Random rnd = new Random();
             int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
@@ -126,6 +126,10 @@ public class CardAnimator{
     }
 
     public void discard(int direction,final AnimatorListener al){
+        this.discard(direction,al,250);
+    }
+
+    public void discard(int direction,final AnimatorListener al,long animationDuration){
         AnimatorSet as = new AnimatorSet();
         ArrayList<Animator> aCollection = new ArrayList<Animator>();
 
@@ -142,7 +146,7 @@ public class CardAnimator{
             }
         });
 
-        discardAnim.setDuration(250);
+        discardAnim.setDuration(animationDuration);
         aCollection.add(discardAnim);
 
         for(int i = 0; i< mCardCollection.size();i++){
