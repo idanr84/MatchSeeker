@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cardLayout"
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:clipToPadding="false">
+    </com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack>
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:id="@+id/dislikeButton"
+        android:src="@drawable/close"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="25dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/transparent"/>
+
+    <ImageButton
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:id="@+id/likeButton"
+        android:src="@drawable/check"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"/>
+
+
+
+</RelativeLayout>
