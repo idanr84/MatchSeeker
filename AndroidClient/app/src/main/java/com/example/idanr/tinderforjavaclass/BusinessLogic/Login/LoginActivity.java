@@ -1,18 +1,19 @@
-package com.example.idanr.tinderforjavaclass;
+package com.example.idanr.tinderforjavaclass.BusinessLogic.Login;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.idanr.tinderforjavaclass.PotentialMatches.PotentialMatchesActivity;
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
+import com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches.PotentialMatchesActivity;
+import com.example.idanr.tinderforjavaclass.Facebook.FacebookManager;
+import com.example.idanr.tinderforjavaclass.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-import android.util.Log;
 
 /**
  * Created by idanr on 8/18/15.
@@ -37,18 +38,20 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(true);
+                FacebookManager.sharedInstance().fetchUserInfo();
                 Intent startLogin = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
                 LoginActivity.this.startActivity(startLogin);
             }
 
             @Override
             public void onCancel() {
-                Log.d(TAG ,"onSuccess");
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(false);
             }
 
             @Override
             public void onError(FacebookException e) {
-                Log.d(TAG ,"onSuccess");
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(false);
             }
         });
     }

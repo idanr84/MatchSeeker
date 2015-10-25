@@ -1,4 +1,4 @@
-package com.example.idanr.tinderforjavaclass.PotentialMatches;
+package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 
 import android.app.Fragment;
