@@ -32,23 +32,23 @@ public class MatchingUsers extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userId=request.getParameter("user_id");
-        if (userId==null){
+        String userId = request.getParameter("user_id");
+        if (userId == null){
             ApiResult result=new ApiResult("400","Parameter user_id missing",null);
             ServletHelper.writeResponse(result,response);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper db = new DbHelper();
         try{
             db.open();
-            List<MatchUser> users=db.getMatchedUsers(userId);
+            List<MatchUser> users = db.getMatchedUsers(userId);
             db.close();
-            ApiResult result=new ApiResult("200",null,users);
+            ApiResult result = new ApiResult("200",null,users);
             ServletHelper.writeResponse(result, response);
             users.clear();
         }catch(Exception ex){
             db.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
+            ApiResult result = new ApiResult("400",ex.getMessage(),null);
             ServletHelper.writeResponse(result,response);
         }
     }
