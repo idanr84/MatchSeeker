@@ -9,8 +9,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
@@ -23,6 +25,7 @@ import com.facebook.login.widget.ProfilePictureView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,8 +50,16 @@ public class PotentialMatchesActivity extends Activity {
     @Bind(R.id.userProfile)
     ProfilePictureView mProfilePic;
 
+    @Bind(R.id.settingList)
+    ListView mListView;
+
     private ActionBarDrawerToggle mDrawerToggle;
-    private PotentialMatchesDataAdapter mAdapter;
+    private ArrayList<String> mSettingsList = new ArrayList<String>() {{
+        add("Matches");
+        add("Setting");
+
+    }};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +78,6 @@ public class PotentialMatchesActivity extends Activity {
         setContentView(R.layout.user_matches_activity);
         ButterKnife.bind(this);
 
-
-//        mProfilePic.setPresetSize(ProfilePictureView.LARGE);
-//        mProfilePic.set
-
         String profileID = ConfigurationManager.sharedInstance().getFacebookID();
         if (profileID != null){
             mProfilePic.setProfileId(profileID);
@@ -84,11 +91,7 @@ public class PotentialMatchesActivity extends Activity {
             });
         }
 
-
-
         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, mToolbar,R.string.drawer_opened, R.string.drawer_closed);
-
-//        mDrawerLayout.setStatusBarBackgroundColor(android.graphics.Color.rgb(100, 100, 100));
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -112,6 +115,10 @@ public class PotentialMatchesActivity extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.content_frame, potentialMatchesFragment).commit();
         }
+
+        ArrayAdapter<String> settingAdapter = new ArrayAdapter<String>(this,R.layout.setting_drawer_item,R.id.settingName,mSettingsList );
+        mListView.setAdapter(settingAdapter);
+
     }
 
     @Override
