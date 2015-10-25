@@ -24,11 +24,7 @@ public class MainActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AccessToken token = AccessToken.getCurrentAccessToken();
 
-        Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);
-        startActivity(matchedActivity );
 
 //        if (token != null){
 //            Intent matchedActivity = new Intent(MainActivity.this, PotentialMatchesActivity.class);

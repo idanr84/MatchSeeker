@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.PotentialMatches.PotentialMatchesActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -37,18 +38,19 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(true);
                 Intent startLogin = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
                 LoginActivity.this.startActivity(startLogin);
             }
 
             @Override
             public void onCancel() {
-                Log.d(TAG ,"onSuccess");
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(false);
             }
 
             @Override
             public void onError(FacebookException e) {
-                Log.d(TAG ,"onSuccess");
+                ConfigurationManager.sharedInstance().setIsConnectedToFacebook(false);
             }
         });
     }
