@@ -1,4 +1,4 @@
-package com.example.idanr.tinderforjavaclass.PotentialMatches;
+package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,24 +9,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
-import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack;
-import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
+import com.example.idanr.tinderforjavaclass.Facebook.FacebookManager;
 import com.example.idanr.tinderforjavaclass.Initialization.InitializationManager;
-import com.example.idanr.tinderforjavaclass.LoginActivity;
-import com.example.idanr.tinderforjavaclass.Model.User;
+import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
 import com.example.idanr.tinderforjavaclass.R;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
+import com.facebook.login.widget.ProfilePictureView;
 
-import java.util.ArrayList;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,13 +36,16 @@ public class PotentialMatchesActivity extends Activity {
     FrameLayout mContentContainer;
 
     @Bind(R.id.left_drawer)
-    ListView mLeftDrawer;
+    LinearLayout mLeftDrawer;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    @Bind(R.id.userProfile)
+    ProfilePictureView mProfilePic;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private PotentialMatchesDataAdapter mAdapter;
@@ -66,8 +65,26 @@ public class PotentialMatchesActivity extends Activity {
         }
 
         setContentView(R.layout.user_matches_activity);
-
         ButterKnife.bind(this);
+
+
+//        mProfilePic.setPresetSize(ProfilePictureView.LARGE);
+//        mProfilePic.set
+
+        String profileID = ConfigurationManager.sharedInstance().getFacebookID();
+        if (profileID != null){
+            mProfilePic.setProfileId(profileID);
+        } else {
+            FacebookManager.sharedInstance().fetchUserInfo();
+            ConfigurationManager.sharedInstance().addPropertyChangeListener(new PropertyChangeListener() {
+                @Override
+                public void propertyChange(PropertyChangeEvent event) {
+                    mProfilePic.setProfileId((String)event.getNewValue());
+                }
+            });
+        }
+
+
 
         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, mToolbar,R.string.drawer_opened, R.string.drawer_closed);
 
