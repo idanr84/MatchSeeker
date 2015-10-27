@@ -2,10 +2,12 @@ package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 import android.content.Context;
 
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.idanr.tinderforjavaclass.Model.User;
@@ -49,11 +51,15 @@ public class PotentialMatchesDataAdapter extends ArrayAdapter<User> {
     }
 
 
-    static class CardViewHolder {
+    public static class CardViewHolder {
         @Bind(R.id.name)
-        TextView mName;
+        public TextView mName;
+
         @Bind(R.id.age)
-        TextView mAge;
+        public TextView mAge;
+
+        @Bind(R.id.userImage)
+        public ImageView mUserImage;
 
         public CardViewHolder(View view) {
             ButterKnife.bind(this, view);

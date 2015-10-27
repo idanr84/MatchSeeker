@@ -15,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.database.DataSetObserver;
 
+import com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches.PotentialMatchesDataAdapter;
+
 
 public class CardStack extends RelativeLayout {
     private int mIndex = 0;
@@ -50,7 +52,7 @@ public class CardStack extends RelativeLayout {
             public void onAnimationEnd(Animator arg0) {
                 mCardAnimator.initLayout();
                 mIndex++;
-                mEventListener.discarded(mIndex,direction);
+                mEventListener.discarded(mIndex, direction);
 
                 //mIndex = mIndex%mAdapter.getCount();
                 loadLast();
@@ -58,6 +60,7 @@ public class CardStack extends RelativeLayout {
                 viewCollection.get(0).setOnTouchListener(null);
                 viewCollection.get(viewCollection.size()-1)
                         .setOnTouchListener(mOnTouchListener);
+
             }
         },animationDuration);
     }
@@ -265,4 +268,12 @@ public class CardStack extends RelativeLayout {
     public int getStackSize() {
         return mNumVisible;
     }
+
+    public View topCardImageView(){
+        View topParentView = viewCollection.get(viewCollection.size() - 1);
+        PotentialMatchesDataAdapter.CardViewHolder cardViewHolder = (PotentialMatchesDataAdapter.CardViewHolder)((ViewGroup)topParentView).getChildAt(0).getTag();
+        return cardViewHolder.mUserImage;
+    }
+
+
 }

@@ -1,14 +1,20 @@
 package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 
+import android.app.ActivityOptions;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
+import com.example.idanr.tinderforjavaclass.BusinessLogic.UserDetails.UserDetailsActivity;
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack;
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
 import com.example.idanr.tinderforjavaclass.Model.User;
@@ -33,6 +39,9 @@ public class PotentialMatchesFragment extends Fragment {
     @Bind(R.id.dislikeButton)
     ImageButton mDislikeButton;
 
+    @Bind(R.id.container)
+    RelativeLayout mContainer;
+
     PotentialMatchesDataAdapter mAdapter;
 
 
@@ -41,10 +50,54 @@ public class PotentialMatchesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View contentView = inflater.inflate(R.layout.user_matches_fragment,container,false);
 
-        ButterKnife.bind(this,contentView);
+        ButterKnife.bind(this, contentView);
+
+        mCardLayout.setTransitionGroup(true);
+        Fade fadeTransition = new Fade();
+        fadeTransition.setDuration(1000);
+        fadeTransition.excludeTarget(R.id.cardLayout, true);
+        fadeTransition.excludeTarget(android.R.id.navigationBarBackground, true);
+        fadeTransition.excludeTarget(android.R.id.statusBarBackground, true);
+        getActivity().getWindow().setReenterTransition(fadeTransition);
 
         //add the view via xml or programmatically
         mCardLayout.setStackMargin(20);
+        mCardLayout.setListener(new CardStack.CardEventListener() {
+            @Override
+            public boolean swipeEnd(int section, float distance) {
+                if(distance > 300){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+            @Override
+            public boolean swipeStart(int section, float distance) {
+                return false;
+            }
+
+            @Override
+            public boolean swipeContinue(int section, float distanceX, float distanceY) {
+                return false;
+            }
+
+            @Override
+            public void discarded(int mIndex, int direction) {
+
+            }
+
+            @Override
+            public void topCardTapped() {
+                Intent i  = new Intent(getActivity(),
+                        UserDetailsActivity.class);
+
+                ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                        getActivity(), mCardLayout.topCardImageView(), "user_image");
+
+                startActivity(i, transitionActivityOptions.toBundle());
+            }
+        });
 
         ArrayList<User> al = new ArrayList<User>();
         al.add(new User("idan","31"));

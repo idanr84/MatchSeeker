@@ -22,6 +22,7 @@
         android:layout_height="300dp"
         android:id="@+id/userImage"
         android:scaleType="centerCrop"
+        android:transitionName="user_image"
         android:src="@drawable/linda"/>
 
     <LinearLayout

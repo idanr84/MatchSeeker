@@ -35,6 +35,17 @@
                 <action android:name="android.intent.action.view" />
             </intent-filter>
         </activity>
+
+
+        <activity
+            android:name=".BusinessLogic.UserDetails.UserDetailsActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.view" />
+            </intent-filter>
+        </activity>
+
+
+
     </application>
 
 </manifest>
