@@ -2,39 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-cd5768f3cf806962dc764823f1317373b05fe1d5.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a78bfd2ec508b123ee7c03f4006ba7996ef9a8dc">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-51425d86a7982e718f73822de83f3fc0ec6ac6ee.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.0.0/support-annotations-22.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/support-annotations-22.0.0-f60f62d152b92788aefde967d800e2c06b9df1aa.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-bfdc775771c2c9cacdc1010a752f4dbd326d9459.jar" />
-    </item>
-    <item
-        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-476821225bed41d3153c81f4ff266c12e5d428b7.jar" />
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-2c9c842395ee521e3dde7127141a67c1a4a7ed7b.jar" />
     </item>
     <item
         jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
@@ -44,11 +16,53 @@
         <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-a4c0fb5001ea17bf9c4ccf750bc85193f6e915fa.jar" />
     </item>
     <item
-        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.0.0/jars/libs/internal_impl-22.0.0.jar"
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v13/23.0.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
-        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-22.0.0-0e6667a77250bae97ef8b7de15319557cd297919.jar" />
+        sha1="bb0ac3f3ee2d71854501cc28e52cc84a20209b41">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-eb8cf5c7d35c2326b672e392e25cf755bce2c248.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/7.0.1/d5d13ea991eab0252e3710e5df3d6a9d4b21d461/butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/butterknife-7.0.1-cd5768f3cf806962dc764823f1317373b05fe1d5.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v13/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5d4bccb885c8a89d066ecb6c4addb553a99a79a2">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-495f33f8335ebcee6d40b532a98ab9a7c02fcac0.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a78bfd2ec508b123ee7c03f4006ba7996ef9a8dc">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-51425d86a7982e718f73822de83f3fc0ec6ac6ee.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d84409890828e07d344a3b9b1da545dba9897b51">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/classes-bfdc775771c2c9cacdc1010a752f4dbd326d9459.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-ff11ecbdd96546750380dab5b4f77d37a8e8e354.jar" />
+    </item>
+    <item
+        jar="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/Users/idanr/Documents/Source/AndroidStudio/TinderForJavaClass/AndroidClient/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-47689b4f4ea4f81ce0b6eb5b68bc429468aef7a2.jar" />
     </item>
 
 </items>

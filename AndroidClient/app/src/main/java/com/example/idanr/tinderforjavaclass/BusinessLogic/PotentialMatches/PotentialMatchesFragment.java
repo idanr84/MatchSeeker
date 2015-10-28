@@ -19,6 +19,7 @@ import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardSt
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
 import com.example.idanr.tinderforjavaclass.Model.User;
 import com.example.idanr.tinderforjavaclass.R;
+import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
 import java.util.ArrayList;
 
@@ -65,9 +66,9 @@ public class PotentialMatchesFragment extends Fragment {
         mCardLayout.setListener(new CardStack.CardEventListener() {
             @Override
             public boolean swipeEnd(int section, float distance) {
-                if(distance > 300){
+                if (distance > 300) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -89,7 +90,7 @@ public class PotentialMatchesFragment extends Fragment {
 
             @Override
             public void topCardTapped() {
-                Intent i  = new Intent(getActivity(),
+                Intent i = new Intent(getActivity(),
                         UserDetailsActivity.class);
 
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
@@ -99,13 +100,8 @@ public class PotentialMatchesFragment extends Fragment {
             }
         });
 
-        ArrayList<User> al = new ArrayList<User>();
-        al.add(new User("idan","31"));
-        al.add(new User("idan_1","31"));
-        al.add(new User("idan_2","31"));
-        al.add(new User("idan_3", "31"));
 
-        mAdapter = new PotentialMatchesDataAdapter(this.getActivity(),al);
+        mAdapter = new PotentialMatchesDataAdapter(this.getActivity(), StorageManager.sharedInstance().getPotentialMatches());
 
         mCardLayout.setAdapter(mAdapter);
 

@@ -4,16 +4,15 @@
     android:layout_height="match_parent" android:id="@+id/container"
     android:fitsSystemWindows="true">
 
-    <ImageView
+    <android.support.v4.view.ViewPager
         android:layout_width="320dp"
         android:layout_height="320dp"
         android:id="@+id/userImages"
         android:background="@android:color/holo_blue_bright"
         android:layout_gravity="center_horizontal"
         android:transitionName="user_image"
-        android:src="@drawable/linda"
         android:scaleType="centerCrop">
-    </ImageView>
+    </android.support.v4.view.ViewPager>
 
     <View
         android:layout_width="match_parent"
