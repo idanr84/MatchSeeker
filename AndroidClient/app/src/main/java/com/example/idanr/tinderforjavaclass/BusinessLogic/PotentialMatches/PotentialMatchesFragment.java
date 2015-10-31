@@ -17,11 +17,8 @@ import android.widget.RelativeLayout;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.UserDetails.UserDetailsActivity;
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack;
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
-import com.example.idanr.tinderforjavaclass.Model.User;
 import com.example.idanr.tinderforjavaclass.R;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

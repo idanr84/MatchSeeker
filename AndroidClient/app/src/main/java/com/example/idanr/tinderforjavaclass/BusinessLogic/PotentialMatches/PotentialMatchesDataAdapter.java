@@ -2,7 +2,6 @@ package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 import android.content.Context;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.idanr.tinderforjavaclass.Model.User;
+import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.R;
 
 import java.util.ArrayList;
@@ -18,16 +17,16 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PotentialMatchesDataAdapter extends ArrayAdapter<User> {
+public class PotentialMatchesDataAdapter extends ArrayAdapter<BaseUser> {
 
-    public PotentialMatchesDataAdapter(Context context, ArrayList<User> users) {
+    public PotentialMatchesDataAdapter(Context context, ArrayList<BaseUser> users) {
         super(context,0, users);
     }
 
     @Override
     public View getView(int position, final View contentView, ViewGroup parent){
 
-        User user = getItem(position);
+        BaseUser user = getItem(position);
 
         View v = contentView;
         CardViewHolder holder;

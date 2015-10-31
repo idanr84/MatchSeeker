@@ -3,9 +3,8 @@ package com.example.idanr.tinderforjavaclass.StorageManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.widget.ArrayAdapter;
 
-import com.example.idanr.tinderforjavaclass.Model.User;
+import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.R;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class StorageManager {
 
     static StorageManager mSharedInstace;
     private Context mContext;
-    private ArrayList<User> mPotentialMatches;
+    private ArrayList<BaseUser> mPotentialMatches;
 
     public static StorageManager sharedInstance() {
         if (mSharedInstace == null) {
@@ -51,11 +50,11 @@ public class StorageManager {
         bitmaps.add(testBitmap);
         bitmaps.add(testBitmap);
 
-        ArrayList<User> al = new ArrayList<User>();
-        al.add(new User("idan 0","31",urls,bitmaps));
-        al.add(new User("idan 1 ","31",urls,bitmaps));
-        al.add(new User("idan 2 ","31",urls,bitmaps));
-        al.add(new User("idan 3","31",urls,bitmaps));
+        ArrayList<BaseUser> al = new ArrayList<BaseUser>();
+        al.add(new BaseUser("idan 0","31","4",urls,bitmaps));
+        al.add(new BaseUser("idan 1 ","31","4",urls,bitmaps));
+        al.add(new BaseUser("idan 2 ","31","4",urls,bitmaps));
+        al.add(new BaseUser("idan 3","31","4",urls,bitmaps));
         mPotentialMatches = al;
     }
 
@@ -63,11 +62,11 @@ public class StorageManager {
         return mPotentialMatches.size();
     }
 
-    public User getPotentialMatchAtIndex(int position){
+    public BaseUser getPotentialMatchAtIndex(int position){
         return mPotentialMatches.get(position);
     }
 
-    public ArrayList<User> getPotentialMatches(){
+    public ArrayList<BaseUser> getPotentialMatches(){
         return mPotentialMatches;
     }
 

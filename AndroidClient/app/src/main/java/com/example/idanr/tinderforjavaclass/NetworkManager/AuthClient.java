@@ -6,15 +6,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.example.idanr.tinderforjavaclass.Model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * Created by idanr on 10/31/15.
@@ -27,8 +23,8 @@ public class AuthClient {
     public interface LoginListener {
         void loginSuccessed(String accessToken);
         void loginFailed(String error);
-//        void potentialMatches(ArrayList<User> potentialMatches);
-//        void matches(ArrayList<User> potentialMatches);
+//        void potentialMatches(ArrayList<BaseUser> potentialMatches);
+//        void matches(ArrayList<BaseUser> potentialMatches);
     }
 
     public AuthClient(LoginListener listener){
@@ -41,7 +37,6 @@ public class AuthClient {
         final String FB_ID = "user_id";
         final String ACCESS_TOKEN = "access_token";
 
-        URL loginUrl;
         Uri builtUri = Uri.parse(BASE_URL + LOGIN_METHOD).buildUpon()
                 .appendQueryParameter(FB_ID, facebookID)
                 .appendQueryParameter(ACCESS_TOKEN, facebookToken)

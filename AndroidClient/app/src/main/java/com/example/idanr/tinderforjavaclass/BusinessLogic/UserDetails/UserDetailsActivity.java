@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
-import com.example.idanr.tinderforjavaclass.Model.User;
+import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.R;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
@@ -46,7 +46,7 @@ public class UserDetailsActivity extends Activity{
         ButterKnife.bind(this);
 
         // TODO: pass real contact here
-        User testUser = StorageManager.sharedInstance().getPotentialMatchAtIndex(0);
+        BaseUser testUser = StorageManager.sharedInstance().getPotentialMatchAtIndex(0);
 
         mAdapter = new MyAdapter(getFragmentManager(),testUser);
         mUserImages.setAdapter(mAdapter);
@@ -79,11 +79,11 @@ public class UserDetailsActivity extends Activity{
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm, User potentialMatch){
+        public MyAdapter(FragmentManager fm, BaseUser potentialMatch){
             super(fm);
             mPtentialMatch = potentialMatch;
         }
-        private User mPtentialMatch;
+        private BaseUser mPtentialMatch;
 
         @Override
         public int getCount() {
