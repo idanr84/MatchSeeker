@@ -34,7 +34,7 @@ public class ConfigurationManager {
 
     //To let classes subscribe for property changed listener
     public void addPropertyChangeListener(PropertyChangeListener listener){
-        pcs.addPropertyChangeListener("FACEBOOK_ID", listener);
+        pcs.addPropertyChangeListener(FACEBOOK_ID, listener);
     }
 
     public String getFacebookToken (){
@@ -50,7 +50,7 @@ public class ConfigurationManager {
     }
 
     public void setFacebookID(String facebookID) {
-        pcs.firePropertyChange("maxDbRecorded", getFacebookID(), facebookID);
+        pcs.firePropertyChange(FACEBOOK_ID, getFacebookID(), facebookID);
         mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(FACEBOOK_ID,facebookID).apply();
     }
 

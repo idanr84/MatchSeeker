@@ -4,9 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches.PotentialMatchesActivity;
-import com.example.idanr.tinderforjavaclass.Facebook.FacebookManager;
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
+import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
+import com.example.idanr.tinderforjavaclass.NetworkManager.AuthClient;
 import com.example.idanr.tinderforjavaclass.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -30,6 +31,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
+//        FacebookHelper fbHelper = new FacebookHelper(new FacebookHelper.FacebookLoginListener()
 
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (LoginButton) findViewById(R.id.login_button);
@@ -39,9 +41,30 @@ public class LoginActivity extends Activity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 ConfigurationManager.sharedInstance().setIsConnectedToFacebook(true);
-                FacebookManager.sharedInstance().fetchUserInfo();
-                Intent startLogin = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
-                LoginActivity.this.startActivity(startLogin);
+
+                new FacebookHelper(new FacebookHelper.FacebookLoginListener() {
+                    @Override
+                    public void fetchedFacebookInfoSuccess(String facebookToken, String facebookID) {
+                        new AuthClient(new AuthClient.LoginListener() {
+                            @Override
+                            public void loginSuccessed(String accessToken) {
+                                Intent startLogin = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
+                                LoginActivity.this.startActivity(startLogin);
+
+                            }
+
+                            @Override
+                            public void loginFailed(String error) {
+
+                            }
+                        }).login(facebookToken,facebookID);
+                    }
+
+                    @Override
+                    public void fetchedFacebookInfoFailure(String error) {
+
+                    }
+                }).fetchUserInfo();
             }
 
             @Override

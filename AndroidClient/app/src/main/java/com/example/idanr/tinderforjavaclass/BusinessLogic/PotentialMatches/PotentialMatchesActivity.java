@@ -8,10 +8,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeBounds;
-import android.transition.ChangeImageTransform;
-import android.transition.Fade;
-import android.transition.TransitionSet;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -20,7 +16,7 @@ import android.widget.ListView;
 
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
-import com.example.idanr.tinderforjavaclass.Facebook.FacebookManager;
+import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
 import com.example.idanr.tinderforjavaclass.Initialization.InitializationManager;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
 import com.example.idanr.tinderforjavaclass.R;
@@ -87,13 +83,7 @@ public class PotentialMatchesActivity extends Activity {
         if (profileID != null){
             mProfilePic.setProfileId(profileID);
         } else {
-            FacebookManager.sharedInstance().fetchUserInfo();
-            ConfigurationManager.sharedInstance().addPropertyChangeListener(new PropertyChangeListener() {
-                @Override
-                public void propertyChange(PropertyChangeEvent event) {
-                    mProfilePic.setProfileId((String)event.getNewValue());
-                }
-            });
+            // Should never happen
         }
 
         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout, mToolbar,R.string.drawer_opened, R.string.drawer_closed);

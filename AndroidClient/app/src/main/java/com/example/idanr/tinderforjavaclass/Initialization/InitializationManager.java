@@ -3,6 +3,7 @@ package com.example.idanr.tinderforjavaclass.Initialization;
 import android.content.Context;
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
+import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkManager;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
 /**
@@ -13,5 +14,6 @@ public class InitializationManager {
     public static void initSystemWithContext(Context context) {
         ConfigurationManager.init(context);
         StorageManager.sharedInstance().initWithContext(context);
+        NetworkManager.sharedInstance().initWithContext(context);
     }
 }

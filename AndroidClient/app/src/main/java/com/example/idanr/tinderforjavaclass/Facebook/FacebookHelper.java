@@ -13,15 +13,18 @@ import org.json.JSONObject;
 /**
  * Created by idanr on 10/25/15.
  */
-public class FacebookManager {
-    private static FacebookManager mSharedInstace;
-    private Boolean mIsFetchingUserInfo = false;
-    public static FacebookManager  sharedInstance() {
-        if (mSharedInstace == null) {
-            mSharedInstace = new FacebookManager ();
-        }
-        return mSharedInstace;
+public class FacebookHelper {
 
+    private FacebookLoginListener mListener;
+    private Boolean mIsFetchingUserInfo = false;
+
+    public interface FacebookLoginListener{
+        public void fetchedFacebookInfoSuccess(String facebookToken, String facebookID);
+        public void fetchedFacebookInfoFailure(String error);
+    }
+
+    public FacebookHelper(FacebookLoginListener listener){
+        mListener = listener;
     }
 
     public void fetchUserInfo() {
@@ -38,18 +41,16 @@ public class FacebookManager {
                             try {
                                 String id = me.getString("id");
                                 ConfigurationManager.sharedInstance().setFacebookID(id);
+                                mListener.fetchedFacebookInfoSuccess(accessToken.getToken(),id);
                             }
                             catch (JSONException e){
-
+                                mListener.fetchedFacebookInfoFailure(e.getLocalizedMessage());
                             }
                         }
                     });
-//            Bundle parameters = new Bundle();
-//            parameters.putString(FIELDS, REQUEST_FIELDS);
-//            request.setParameters(parameters);
             GraphRequest.executeBatchAsync(request);
         } else {
-//            user = null;
+
         }
     }
 
