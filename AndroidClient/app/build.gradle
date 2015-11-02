@@ -25,5 +25,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile "com.android.support:appcompat-v7:22.0.+"
     compile 'com.android.support:support-v13:+'
+    compile 'com.google.code.gson:gson:2.4'
     compile project(':Volley')
 }

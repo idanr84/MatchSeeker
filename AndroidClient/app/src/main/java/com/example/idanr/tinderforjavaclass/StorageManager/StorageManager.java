@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.Model.BaseUser;
+import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
+import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.R;
 
 import java.util.ArrayList;
@@ -16,7 +19,8 @@ public class StorageManager {
 
     static StorageManager mSharedInstace;
     private Context mContext;
-    private ArrayList<BaseUser> mPotentialMatches;
+    private CurrentUser mCurrentUser;
+    private ArrayList<PotentialMatch> mPotentialMatches;
 
     public static StorageManager sharedInstance() {
         if (mSharedInstace == null) {
@@ -31,7 +35,15 @@ public class StorageManager {
 
     public void initWithContext(Context context){
         mContext = context;
-        createTestPotentialMatches();
+        refreshData();
+//        createTestPotentialMatches();
+    }
+
+    private void refreshData(){
+        mCurrentUser = ConfigurationManager.sharedInstance().getCurrentUser();
+        if (mCurrentUser != null) {
+            mPotentialMatches = mCurrentUser.getPotentialMatches();
+        }
     }
 
     private void createTestPotentialMatches() {
@@ -50,11 +62,11 @@ public class StorageManager {
         bitmaps.add(testBitmap);
         bitmaps.add(testBitmap);
 
-        ArrayList<BaseUser> al = new ArrayList<BaseUser>();
-        al.add(new BaseUser("idan 0","31","4",urls,bitmaps));
-        al.add(new BaseUser("idan 1 ","31","4",urls,bitmaps));
-        al.add(new BaseUser("idan 2 ","31","4",urls,bitmaps));
-        al.add(new BaseUser("idan 3","31","4",urls,bitmaps));
+        ArrayList<PotentialMatch> al = new ArrayList<PotentialMatch>();
+        al.add(new PotentialMatch("idan 0","31","4",urls,bitmaps,"liked"));
+        al.add(new PotentialMatch("idan 1 ","31","4",urls,bitmaps,"liked"));
+        al.add(new PotentialMatch("idan 2 ","31","4",urls,bitmaps,"liked"));
+        al.add(new PotentialMatch("idan 3","31","4",urls,bitmaps,"liked"));
         mPotentialMatches = al;
     }
 
@@ -62,11 +74,11 @@ public class StorageManager {
         return mPotentialMatches.size();
     }
 
-    public BaseUser getPotentialMatchAtIndex(int position){
+    public PotentialMatch getPotentialMatchAtIndex(int position){
         return mPotentialMatches.get(position);
     }
 
-    public ArrayList<BaseUser> getPotentialMatches(){
+    public ArrayList<PotentialMatch> getPotentialMatches(){
         return mPotentialMatches;
     }
 

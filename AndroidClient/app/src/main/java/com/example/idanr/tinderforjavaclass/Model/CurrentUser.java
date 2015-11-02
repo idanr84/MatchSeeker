@@ -22,22 +22,64 @@ public class CurrentUser extends BaseUser {
         super(name,age,userID,imageUrls,images);
     }
 
-    public CurrentUser(BaseUser user,ArrayList<String> likes,ArrayList<String> dislikes,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){
+    public CurrentUser(BaseUser user,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){
         super(user);
-        this.likes = likes;
-        this.dislikes = dislikes;
+//        this.likes = likes;
+//        this.dislikes = dislikes;
         this.potentialMatches = potentialMatches;
         this.matches = matches;
     }
 
+    public ArrayList<String> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(ArrayList<String> likes) {
+        this.likes = likes;
+    }
+
+    public ArrayList<String> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(ArrayList<String> dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public void addDislikedUserID(String userID){
+        this.dislikes.add(userID);
+    }
+
+    public void addLikedUserID(String userID){
+        this.likes.add(userID);
+    }
+
+    public ArrayList<PotentialMatch> getPotentialMatches() {
+        return potentialMatches;
+    }
+
+    public void setPotentialMatches(ArrayList<PotentialMatch> potentialMatches) {
+        this.potentialMatches = potentialMatches;
+    }
+
+    public ArrayList<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(ArrayList<Match> matches) {
+        this.matches = matches;
+    }
+
+
     public static CurrentUser fromJson(JSONObject object){
         try {
-            ArrayList<PotentialMatch> potentialMatches = parsePotentialMatches(object);
-            ArrayList<Match> matches = parseMatches(object);
-            ArrayList<String> likes = parseString(object.getJSONArray("likes"));
-            ArrayList<String> dislikes = parseString(object.getJSONArray("dislikes"));
-            BaseUser user = BaseUser.fromJson(object);
-            return new CurrentUser(user,likes,dislikes,potentialMatches,matches);
+            JSONObject data = object.getJSONObject("data");
+            ArrayList<PotentialMatch> potentialMatches = parsePotentialMatches(data);
+            ArrayList<Match> matches = parseMatches(data);
+//            ArrayList<String> likes = parseString(object.getJSONArray("likes"));
+//            ArrayList<String> dislikes = parseString(object.getJSONArray("dislikes"));
+            BaseUser user = BaseUser.fromJson(data);
+            return new CurrentUser(user,potentialMatches,matches);
         }
         catch (JSONException e){
             return null;
@@ -56,7 +98,7 @@ public class CurrentUser extends BaseUser {
 
     private static ArrayList<Match>  parseMatches(JSONObject object) throws JSONException {
         ArrayList<Match> matches = new ArrayList<>();
-        JSONArray matchesJsonArray = object.getJSONArray("matches");
+        JSONArray matchesJsonArray = object.getJSONArray("matched_users");
         for (int index=0;index<matchesJsonArray.length();index++){
             JSONObject match = matchesJsonArray.getJSONObject(index);
             matches.add(Match.fromJson(match));

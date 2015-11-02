@@ -102,7 +102,7 @@ public class BaseUser {
 
     public static BaseUser fromJson(JSONObject object){
         try {
-            JSONObject data = (JSONObject)object.get("data");
+            JSONObject data = (JSONObject)object.get("user");
             String userID = data.getString("user_id");
             String name = data.getString("name");
             ArrayList<String> imageUrls = new ArrayList<>();
