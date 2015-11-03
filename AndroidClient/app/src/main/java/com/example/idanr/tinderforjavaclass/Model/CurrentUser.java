@@ -2,6 +2,8 @@ package com.example.idanr.tinderforjavaclass.Model;
 
 import android.graphics.Bitmap;
 
+import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,8 +20,8 @@ public class CurrentUser extends BaseUser {
     ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
     ArrayList<Match> matches = new ArrayList<>();
 
-    public CurrentUser(String name, String age,String userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images){
-        super(name,age,userID,imageUrls,images);
+    public CurrentUser(String name, String age,String userID, ArrayList<String> imageUrls){
+        super(name,age,userID,imageUrls);
     }
 
     public CurrentUser(BaseUser user,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){
@@ -87,13 +89,17 @@ public class CurrentUser extends BaseUser {
     }
 
     private static ArrayList<PotentialMatch>  parsePotentialMatches(JSONObject object) throws JSONException {
-        ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
-        JSONArray potentialMatchesJsonArray = object.getJSONArray("potential_matches");
-        for (int index=0;index<potentialMatchesJsonArray.length();index++){
-            JSONObject potentialMatch = potentialMatchesJsonArray.getJSONObject(index);
-            potentialMatches.add(PotentialMatch.fromJson(potentialMatch));
-        }
-        return potentialMatches;
+
+
+//        ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
+//        JSONArray potentialMatchesJsonArray = object.getJSONArray("potential_matches");
+//        for (int index=0;index<potentialMatchesJsonArray.length();index++){
+//            JSONObject potentialMatch = potentialMatchesJsonArray.getJSONObject(index);
+//            potentialMatches.add(PotentialMatch.fromJson(potentialMatch));
+//        }
+//        return potentialMatches;
+
+        return StorageManager.sharedInstance().returnTestPotentialMatches();
     }
 
     private static ArrayList<Match>  parseMatches(JSONObject object) throws JSONException {

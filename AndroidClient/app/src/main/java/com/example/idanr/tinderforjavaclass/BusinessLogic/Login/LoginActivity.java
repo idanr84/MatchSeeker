@@ -54,7 +54,7 @@ public class LoginActivity extends Activity {
 
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (LoginButton) findViewById(R.id.login_button);
-        mLoginButton.setReadPermissions("user_photos","user_location");
+        mLoginButton.setReadPermissions("user_photos","user_location","user_friends","user_birthday","user_likes");
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
 
             @Override
@@ -64,7 +64,7 @@ public class LoginActivity extends Activity {
                 new FacebookHelper(new FacebookHelper.FacebookLoginListener() {
                     @Override
                     public void fetchedFacebookInfoSuccess(String facebookToken, String facebookID) {
-                        mNetworkClient.login(facebookToken,facebookID);
+                        mNetworkClient.login(facebookToken, facebookID);
 
                     }
 

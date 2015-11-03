@@ -10,8 +10,8 @@ import java.util.ArrayList;
  * Created by idanr on 10/31/15.
  */
 public class Match extends BaseUser {
-    public Match (String name, String age,String userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images){
-        super(name,age,userID,imageUrls,images);
+    public Match (String name, String age,String userID, ArrayList<String> imageUrls){
+        super(name,age,userID,imageUrls);
     }
 
     public Match (BaseUser baseUser){

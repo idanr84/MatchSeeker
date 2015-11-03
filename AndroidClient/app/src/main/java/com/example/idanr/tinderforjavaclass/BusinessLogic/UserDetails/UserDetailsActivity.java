@@ -19,7 +19,10 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.idanr.tinderforjavaclass.Model.BaseUser;
+import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
+import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkManager;
 import com.example.idanr.tinderforjavaclass.R;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
@@ -45,10 +48,9 @@ public class UserDetailsActivity extends Activity{
         setContentView(R.layout.user_details_activity);
         ButterKnife.bind(this);
 
-        // TODO: pass real contact here
-        BaseUser testUser = StorageManager.sharedInstance().getPotentialMatchAtIndex(0);
+        PotentialMatch potentialMatch = StorageManager.sharedInstance().getPotentialMatchAtIndex(0);
 
-        mAdapter = new MyAdapter(getFragmentManager(),testUser);
+        mAdapter = new MyAdapter(getFragmentManager(),potentialMatch);
         mUserImages.setAdapter(mAdapter);
 
         TransitionSet animationSet = new TransitionSet();
@@ -79,11 +81,11 @@ public class UserDetailsActivity extends Activity{
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm, BaseUser potentialMatch){
+        public MyAdapter(FragmentManager fm, PotentialMatch potentialMatch){
             super(fm);
             mPtentialMatch = potentialMatch;
         }
-        private BaseUser mPtentialMatch;
+        private PotentialMatch mPtentialMatch;
 
         @Override
         public int getCount() {
@@ -92,25 +94,25 @@ public class UserDetailsActivity extends Activity{
 
         @Override
         public Fragment getItem(int position) {
-            return UserImageFragment.newInstance(position,mPtentialMatch.getImageAtIndex(position));
+            return UserImageFragment.newInstance(position,mPtentialMatch.getImageUrlAtIndex(position));
         }
     }
 
     public static class UserImageFragment extends Fragment {
         int mNum;
-        Bitmap mBitmap;
+        String mImageUrl;
 
         /**
          * Create a new instance of UserImageFragment, providing "num"
          * as an argument.
          */
-        static UserImageFragment newInstance(int num,Bitmap userImage) {
+        static UserImageFragment newInstance(int num,String imageUrl) {
             UserImageFragment f = new UserImageFragment();
 
             // Supply num input as an argument.
             Bundle args = new Bundle();
             args.putInt("num", num);
-            args.putParcelable("image", userImage);
+            args.putString("imageUrl", imageUrl);
             f.setArguments(args);
 
             return f;
@@ -123,7 +125,7 @@ public class UserDetailsActivity extends Activity{
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             mNum = getArguments() != null ? getArguments().getInt("num") : 1;
-            mBitmap = getArguments() != null ? (Bitmap)getArguments().getParcelable("image") : null;
+            mImageUrl = getArguments() != null ? (String)getArguments().getString("imageUrl") : null;
         }
 
         /**
@@ -134,8 +136,8 @@ public class UserDetailsActivity extends Activity{
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.user_images_pager, container, false);
-            ImageView userImage = (ImageView)v.findViewById(R.id.image);
-            userImage.setImageBitmap(mBitmap);
+            NetworkImageView userImage = (NetworkImageView)v.findViewById(R.id.image);
+            userImage.setImageUrl(mImageUrl, NetworkManager.sharedInstance().getImageLoader());
             return v;
         }
 

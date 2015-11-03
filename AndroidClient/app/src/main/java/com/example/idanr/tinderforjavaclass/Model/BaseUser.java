@@ -19,7 +19,6 @@ public class BaseUser {
     private String age;
     private String userID;
     private ArrayList<String> mImageUrls;
-    private ArrayList<Bitmap > mImageBitmaps;
 
     public BaseUser(String name, String age, String userID, ArrayList<String> imageUrl){
         this.name = name;
@@ -48,10 +47,6 @@ public class BaseUser {
 
         if (imageUrls != null){
             this.mImageUrls = imageUrls;
-        }
-
-        if (images != null){
-            this.mImageBitmaps = images;
         }
     }
 
@@ -87,14 +82,6 @@ public class BaseUser {
         mImageUrls.set(pos, imageUrl);
     }
 
-    public Bitmap getImageAtIndex(int pos) {
-        return mImageBitmaps.get(pos);
-    }
-
-    public void setImageBitmap(int pos, Bitmap imageUrl) {
-        mImageBitmaps.set(pos, imageUrl);
-    }
-
     public int getNumOfImages(){
         return mImageUrls.size();
     }
@@ -103,7 +90,7 @@ public class BaseUser {
     public static BaseUser fromJson(JSONObject object){
         try {
             JSONObject data = (JSONObject)object.get("user");
-            String userID = data.getString("user_id");
+            String userID = data.getString("id");
             String name = data.getString("name");
             ArrayList<String> imageUrls = new ArrayList<>();
 

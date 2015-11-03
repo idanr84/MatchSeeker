@@ -9,9 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
+import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkManager;
 import com.example.idanr.tinderforjavaclass.R;
+import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,7 @@ public class PotentialMatchesDataAdapter extends ArrayAdapter<PotentialMatch> {
         // Lookup view for data population
         holder.mName.setText(user.getName());;
         holder.mAge.setText(user.getAge());;
+        holder.mUserImage.setImageUrl(user.getImageUrlAtIndex(position), NetworkManager.sharedInstance().getImageLoader());
 
         // Return the completed view to render on screen
         return v;
@@ -59,7 +63,7 @@ public class PotentialMatchesDataAdapter extends ArrayAdapter<PotentialMatch> {
         public TextView mAge;
 
         @Bind(R.id.userImage)
-        public ImageView mUserImage;
+        public NetworkImageView mUserImage;
 
         public CardViewHolder(View view) {
             ButterKnife.bind(this, view);

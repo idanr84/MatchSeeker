@@ -14,8 +14,8 @@ public class PotentialMatch extends Match {
 
     private String state;
 
-    public PotentialMatch (String name, String age,String userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images, String state){
-        super(name,age,userID,imageUrls,images);
+    public PotentialMatch (String name, String age,String userID, ArrayList<String> imageUrls, String state){
+        super(name,age,userID,imageUrls);
         this.state = state;
     }
 
