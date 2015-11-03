@@ -44,9 +44,9 @@ public class PotentialMatchesDataAdapter extends ArrayAdapter<PotentialMatch> {
         }
 
         // Lookup view for data population
-        holder.mName.setText(user.getName());;
-        holder.mAge.setText(user.getAge());;
-        holder.mUserImage.setImageUrl(user.getImageUrlAtIndex(position), NetworkManager.sharedInstance().getImageLoader());
+        holder.mName.setText(user.getName());
+        holder.mAge.setText(user.getAge());
+        holder.mUserImage.setImageUrl(user.getImageUrlAtIndex(0), NetworkManager.sharedInstance().getImageLoader());
 
         // Return the completed view to render on screen
         return v;

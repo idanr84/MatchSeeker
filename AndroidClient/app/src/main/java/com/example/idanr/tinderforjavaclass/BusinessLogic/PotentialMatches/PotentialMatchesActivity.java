@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.CharacterPickerDialog;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -16,6 +19,7 @@ import android.widget.ListView;
 
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
+import com.example.idanr.tinderforjavaclass.CustomUI.SignoutAlert.SignoutAlert;
 import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
 import com.example.idanr.tinderforjavaclass.Initialization.InitializationManager;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
@@ -57,7 +61,7 @@ public class PotentialMatchesActivity extends Activity {
     private ArrayList<String> mSettingsList = new ArrayList<String>() {{
         add("Matches");
         add("Setting");
-
+        add("Sign out");
     }};
 
 
@@ -113,6 +117,16 @@ public class PotentialMatchesActivity extends Activity {
 
         ArrayAdapter<String> settingAdapter = new ArrayAdapter<String>(this,R.layout.setting_drawer_item,R.id.settingName,mSettingsList );
         mListView.setAdapter(settingAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) { //TODO : change into enum
+                    SignoutAlert dialog = new SignoutAlert();
+                    dialog.show(getFragmentManager(), "Signout_Alert");
+                }
+            }
+        });
 
     }
 

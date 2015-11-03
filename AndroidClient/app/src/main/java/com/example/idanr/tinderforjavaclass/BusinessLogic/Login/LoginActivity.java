@@ -49,6 +49,7 @@ public class LoginActivity extends Activity {
                 ConfigurationManager.sharedInstance().setCurrentUser(currentUser);
                 Intent startMatchingProcess = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
                 LoginActivity.this.startActivity(startMatchingProcess);
+                finish();
             }
         });
 

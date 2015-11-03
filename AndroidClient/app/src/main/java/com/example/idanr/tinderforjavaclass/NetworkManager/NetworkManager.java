@@ -88,7 +88,7 @@ public class NetworkManager {
 
     public ImageLoader getImageLoader() {
         if (mImageLoader == null) {
-            mImageLoader = new ImageLoader(mRequestQueue, new LruBitmapCache(
+            mImageLoader = new ImageLoader(getRequestQueue(), new LruBitmapCache(
                     LruBitmapCache.getCacheSize(mCtx)));
         }
         return mImageLoader;
