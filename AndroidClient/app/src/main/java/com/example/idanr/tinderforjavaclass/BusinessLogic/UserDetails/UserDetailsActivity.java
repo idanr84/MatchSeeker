@@ -48,7 +48,8 @@ public class UserDetailsActivity extends Activity{
         setContentView(R.layout.user_details_activity);
         ButterKnife.bind(this);
 
-        PotentialMatch potentialMatch = StorageManager.sharedInstance().getPotentialMatchAtIndex(0);
+        int index = getIntent().getExtras().getInt("user_id");
+        PotentialMatch potentialMatch = StorageManager.sharedInstance().getPotentialMatchAtIndex(index);
 
         mAdapter = new MyAdapter(getFragmentManager(),potentialMatch);
         mUserImages.setAdapter(mAdapter);

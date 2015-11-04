@@ -75,5 +75,14 @@ public class StorageManager {
         return mPotentialMatches;
     }
 
+    public void removePotentialMatch(int index){
+        mPotentialMatches.remove(index);
+        ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
+    }
+
+    public void remomoveTopPotentialMatch(){
+            removePotentialMatch(0);
+    }
+
 
 }

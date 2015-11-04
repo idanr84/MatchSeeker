@@ -42,6 +42,8 @@ public class PotentialMatchesFragment extends Fragment {
 
     PotentialMatchesDataAdapter mAdapter;
 
+    private int mCurrentIndex;
+
 
     @Nullable
     @Override
@@ -82,7 +84,8 @@ public class PotentialMatchesFragment extends Fragment {
 
             @Override
             public void discarded(int mIndex, int direction) {
-
+//                StorageManager.sharedInstance().remomoveTopPotentialMatch();
+                mCurrentIndex = mIndex;
             }
 
             @Override
@@ -90,6 +93,7 @@ public class PotentialMatchesFragment extends Fragment {
                 Intent i = new Intent(getActivity(),
                         UserDetailsActivity.class);
 
+                i.putExtra("user_id",mCurrentIndex);
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
                         getActivity(), mCardLayout.topCardImageView(), "user_image");
 

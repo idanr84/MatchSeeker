@@ -78,9 +78,7 @@ public class CurrentUser extends BaseUser {
             JSONObject data = object.getJSONObject("data");
             ArrayList<PotentialMatch> potentialMatches = parsePotentialMatches(data);
             ArrayList<Match> matches = parseMatches(data);
-//            ArrayList<String> likes = parseString(object.getJSONArray("likes"));
-//            ArrayList<String> dislikes = parseString(object.getJSONArray("dislikes"));
-            BaseUser user = BaseUser.fromJson(data);
+            BaseUser user = parseBaseUser(data);
             return new CurrentUser(user,potentialMatches,matches);
         }
         catch (JSONException e){
@@ -89,17 +87,15 @@ public class CurrentUser extends BaseUser {
     }
 
     private static ArrayList<PotentialMatch>  parsePotentialMatches(JSONObject object) throws JSONException {
+        ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
+        JSONArray potentialMatchesJsonArray = object.getJSONArray("potential_matches");
+        for (int index=0;index<potentialMatchesJsonArray.length();index++){
+            JSONObject potentialMatch = potentialMatchesJsonArray.getJSONObject(index);
+            potentialMatches.add(PotentialMatch.fromJson(potentialMatch));
+        }
+        return potentialMatches;
 
-
-//        ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
-//        JSONArray potentialMatchesJsonArray = object.getJSONArray("potential_matches");
-//        for (int index=0;index<potentialMatchesJsonArray.length();index++){
-//            JSONObject potentialMatch = potentialMatchesJsonArray.getJSONObject(index);
-//            potentialMatches.add(PotentialMatch.fromJson(potentialMatch));
-//        }
-//        return potentialMatches;
-
-        return StorageManager.sharedInstance().returnTestPotentialMatches();
+//        return StorageManager.sharedInstance().returnTestPotentialMatches();
     }
 
     private static ArrayList<Match>  parseMatches(JSONObject object) throws JSONException {
@@ -110,6 +106,11 @@ public class CurrentUser extends BaseUser {
             matches.add(Match.fromJson(match));
         }
         return matches ;
+    }
+
+    private static BaseUser  parseBaseUser(JSONObject object) throws JSONException {
+        JSONObject data = (JSONObject)object.get("user");
+        return BaseUser.fromJson(data);
     }
 
     private static ArrayList<String> parseString(JSONArray jArray) throws JSONException{

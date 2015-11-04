@@ -27,7 +27,7 @@ public class PotentialMatch extends Match {
     public static PotentialMatch fromJson(JSONObject object){
 
         try {
-            String state = object.getString("state");
+            String state = object.getString("like_state");
             BaseUser baseUser =  BaseUser.fromJson(object);
             PotentialMatch potentialMatch = new PotentialMatch(baseUser,state);
             return potentialMatch;

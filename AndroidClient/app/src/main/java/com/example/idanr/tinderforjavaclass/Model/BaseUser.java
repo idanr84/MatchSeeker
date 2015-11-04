@@ -87,20 +87,20 @@ public class BaseUser {
     }
 
 
-    public static BaseUser fromJson(JSONObject object){
+    public static BaseUser fromJson(JSONObject data){
         try {
-            JSONObject data = (JSONObject)object.get("user");
             String userID = data.getString("id");
             String name = data.getString("name");
+            String age = data.getString("age");
+            //String location = data.getString("location");
             ArrayList<String> imageUrls = new ArrayList<>();
 
 
             JSONArray images = data.getJSONArray("images");
             for (int index=0;index < images.length();index++){
-                JSONObject image = images.getJSONObject(0);
+                JSONObject image = images.getJSONObject(index);
                 String imageUrl =  image.getString("picture_url");
                 String decodedStringImageUrl = null;
-//                new String(jo.getString("name").getBytes("ISO-8859-1"), "UTF-8");
                 try {
                     decodedStringImageUrl = URLDecoder.decode(imageUrl, "UTF-8");
                 }
@@ -113,7 +113,7 @@ public class BaseUser {
                 }
             }
 
-            return new BaseUser(name,"18",userID,imageUrls);
+            return new BaseUser(name,age,userID,imageUrls);
 
         }
         catch (JSONException e){
