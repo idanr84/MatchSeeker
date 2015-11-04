@@ -14,6 +14,16 @@ public class PotentialMatch extends Match {
 
     private String state;
 
+    public int getCurrentImagePage() {
+        return currentImagePage;
+    }
+
+    public void setCurrentImagePage(int currentImagePage) {
+        this.currentImagePage = currentImagePage;
+    }
+
+    private int currentImagePage;
+
     public PotentialMatch (String name, String age,String userID, ArrayList<String> imageUrls, String state){
         super(name,age,userID,imageUrls);
         this.state = state;

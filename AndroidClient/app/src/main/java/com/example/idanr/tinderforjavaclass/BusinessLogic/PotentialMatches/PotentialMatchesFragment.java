@@ -84,7 +84,6 @@ public class PotentialMatchesFragment extends Fragment {
 
             @Override
             public void discarded(int mIndex, int direction) {
-//                StorageManager.sharedInstance().remomoveTopPotentialMatch();
                 mCurrentIndex = mIndex;
             }
 
@@ -102,9 +101,7 @@ public class PotentialMatchesFragment extends Fragment {
         });
 
 
-        mAdapter = new PotentialMatchesDataAdapter(this.getActivity(), StorageManager.sharedInstance().getPotentialMatches());
-
-        mCardLayout.setAdapter(mAdapter);
+        setupCardAdapter();
 
         mLikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,4 +119,26 @@ public class PotentialMatchesFragment extends Fragment {
 
         return contentView;
     }
+
+    private void setupCardAdapter() {
+        mAdapter = new PotentialMatchesDataAdapter(this.getActivity(), StorageManager.sharedInstance().getPotentialMatches());
+
+        mCardLayout.setAdapter(mAdapter);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (mCurrentIndex > 0){
+            StorageManager.sharedInstance().remomoveTopPotentialMatches(mCurrentIndex);
+            mCurrentIndex = 0;
+        }
+
+        setupCardAdapter();
+        mCardLayout.reset(true);
+        //mCardLayout.reset(true);
+    }
+
 }

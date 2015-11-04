@@ -20,7 +20,7 @@ public class StorageManager {
     static StorageManager mSharedInstace;
     private Context mContext;
     private CurrentUser mCurrentUser;
-    private ArrayList<PotentialMatch> mPotentialMatches;
+//    private ArrayList<PotentialMatch> mPotentialMatches;
 
     public static StorageManager sharedInstance() {
         if (mSharedInstace == null) {
@@ -41,9 +41,10 @@ public class StorageManager {
 
     public void refreshData(){
         mCurrentUser = ConfigurationManager.sharedInstance().getCurrentUser();
-        if (mCurrentUser != null) {
-            mPotentialMatches = mCurrentUser.getPotentialMatches();
-        }
+    }
+
+    public ArrayList<PotentialMatch> getPotentialMatches(){
+        return mCurrentUser.getPotentialMatches();
     }
 
     public ArrayList<PotentialMatch> returnTestPotentialMatches() {
@@ -64,24 +65,25 @@ public class StorageManager {
     }
 
     public int getNumberOfPotentialMatches(){
-        return mPotentialMatches.size();
+        return getPotentialMatches().size();
     }
 
     public PotentialMatch getPotentialMatchAtIndex(int position){
-        return mPotentialMatches.get(position);
+        return getPotentialMatches().get(position);
     }
 
-    public ArrayList<PotentialMatch> getPotentialMatches(){
-        return mPotentialMatches;
-    }
-
-    public void removePotentialMatch(int index){
-        mPotentialMatches.remove(index);
+    public void setPotentialMatch(PotentialMatch potential, int index){
+        getPotentialMatches().set(index, potential);
         ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
     }
 
-    public void remomoveTopPotentialMatch(){
-            removePotentialMatch(0);
+//    public ArrayList<PotentialMatch> getPotentialMatches(){
+//        return mPotentialMatches;
+//    }
+
+    public void remomoveTopPotentialMatches(int topToRemove){
+        getPotentialMatches().subList(0,topToRemove).clear();
+            ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
     }
 
 

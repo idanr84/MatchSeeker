@@ -224,7 +224,8 @@ public class CardStack extends RelativeLayout {
         mAdapter = adapter;
         adapter.registerDataSetObserver(mOb);
 
-        loadData();
+//        loadData();
+        reset(true);
     }
 
     private void loadData(){

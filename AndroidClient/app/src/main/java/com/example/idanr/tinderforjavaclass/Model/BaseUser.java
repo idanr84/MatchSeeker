@@ -2,6 +2,8 @@ package com.example.idanr.tinderforjavaclass.Model;
 
 import android.graphics.Bitmap;
 
+import com.facebook.internal.CollectionMapper;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by idanr on 10/23/15.
@@ -86,7 +90,7 @@ public class BaseUser {
         return mImageUrls.size();
     }
 
-
+    
     public static BaseUser fromJson(JSONObject data){
         try {
             String userID = data.getString("id");

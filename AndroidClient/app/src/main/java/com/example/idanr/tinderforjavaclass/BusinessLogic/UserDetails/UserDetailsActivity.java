@@ -40,6 +40,7 @@ public class UserDetailsActivity extends Activity{
     ViewPager mUserImages;
 
     MyAdapter mAdapter;
+    PotentialMatch mPotentialMatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +49,30 @@ public class UserDetailsActivity extends Activity{
         setContentView(R.layout.user_details_activity);
         ButterKnife.bind(this);
 
-        int index = getIntent().getExtras().getInt("user_id");
-        PotentialMatch potentialMatch = StorageManager.sharedInstance().getPotentialMatchAtIndex(index);
+        final int index = getIntent().getExtras().getInt("user_id");
+        mPotentialMatch= StorageManager.sharedInstance().getPotentialMatchAtIndex(index);
 
-        mAdapter = new MyAdapter(getFragmentManager(),potentialMatch);
+        mAdapter = new MyAdapter(getFragmentManager(),mPotentialMatch);
         mUserImages.setAdapter(mAdapter);
+        mUserImages.setCurrentItem(mPotentialMatch.getCurrentImagePage());
+
+        mUserImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                mPotentialMatch.setCurrentImagePage(position);
+                StorageManager.sharedInstance().setPotentialMatch(mPotentialMatch,index);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         TransitionSet animationSet = new TransitionSet();
         animationSet.addTransition(new ChangeBounds());
@@ -143,4 +163,5 @@ public class UserDetailsActivity extends Activity{
         }
 
     }
+
 }
