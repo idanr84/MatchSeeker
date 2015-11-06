@@ -5,6 +5,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="customDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/customDialogAnimation</item>
+    </style>
 
+    <style name="customDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
 
 </resources>

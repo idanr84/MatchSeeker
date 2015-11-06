@@ -1,7 +1,9 @@
 package com.example.idanr.tinderforjavaclass.Model;
 
 import android.graphics.Bitmap;
+import android.support.v4.app.NavUtils;
 
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
 import org.json.JSONArray;
@@ -26,8 +28,6 @@ public class CurrentUser extends BaseUser {
 
     public CurrentUser(BaseUser user,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){
         super(user);
-//        this.likes = likes;
-//        this.dislikes = dislikes;
         this.potentialMatches = potentialMatches;
         this.matches = matches;
     }
@@ -56,12 +56,25 @@ public class CurrentUser extends BaseUser {
         this.likes.add(userID);
     }
 
+    public void addMatch(Match match){
+        matches.add(match);
+    }
+
     public ArrayList<PotentialMatch> getPotentialMatches() {
         return potentialMatches;
     }
 
     public void setPotentialMatches(ArrayList<PotentialMatch> potentialMatches) {
         this.potentialMatches = potentialMatches;
+    }
+
+    public PotentialMatch getPotentialMatchAtIndex(int position){
+        return potentialMatches.get(position);
+    }
+
+
+    public void remomoveTopPotentialMatches(int topToRemove){
+        getPotentialMatches().subList(0, topToRemove).clear();
     }
 
     public ArrayList<Match> getMatches() {
@@ -72,6 +85,31 @@ public class CurrentUser extends BaseUser {
         this.matches = matches;
     }
 
+    public String toJson(){
+        try {
+            JSONObject json = new JSONObject();
+            json.put("liked_users", new JSONArray(likes));
+            json.put("disliked_users", new JSONArray(dislikes));
+            //json.put("user",super.toJson());
+
+            JSONArray matchesArr = new JSONArray();
+            for (Match match : matches){
+                matchesArr.put(match.getUserID());
+            }
+            json.put("matched_users",matchesArr);
+
+
+//            JSONArray potentialArr = new JSONArray();
+//            for (PotentialMatch potentialMatch : potentialMatches){
+//                potentialArr.put(potentialMatch.toJson());
+//            }
+//            json.put("potential_matches",potentialArr);
+            return json.toString();
+        }
+        catch (JSONException e){
+            return null;
+        }
+    }
 
     public static CurrentUser fromJson(JSONObject object){
         try {
@@ -94,8 +132,6 @@ public class CurrentUser extends BaseUser {
             potentialMatches.add(PotentialMatch.fromJson(potentialMatch));
         }
         return potentialMatches;
-
-//        return StorageManager.sharedInstance().returnTestPotentialMatches();
     }
 
     private static ArrayList<Match>  parseMatches(JSONObject object) throws JSONException {

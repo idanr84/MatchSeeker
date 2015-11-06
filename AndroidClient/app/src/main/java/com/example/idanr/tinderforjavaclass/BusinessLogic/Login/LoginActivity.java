@@ -3,6 +3,7 @@ package com.example.idanr.tinderforjavaclass.BusinessLogic.Login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches.PotentialMatchesActivity;
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
@@ -10,6 +11,7 @@ import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
 import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkClient;
 import com.example.idanr.tinderforjavaclass.R;
+import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -33,30 +35,13 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        mNetworkClient = new NetworkClient(new NetworkClient.LoginListener() {
-            @Override
-            public void loginSuccessed(String accessToken, String userID) {
-                mNetworkClient.getUserInfo();
-            }
-
-            @Override
-            public void loginFailed(String error) {
-
-            }
-
-            @Override
-            public void userInfoFetched(CurrentUser currentUser) {
-                ConfigurationManager.sharedInstance().setCurrentUser(currentUser);
-                Intent startMatchingProcess = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
-                LoginActivity.this.startActivity(startMatchingProcess);
-                finish();
-            }
-        });
+        mNetworkClient = new NetworkClient();
 
         mCallbackManager = CallbackManager.Factory.create();
         mLoginButton = (LoginButton) findViewById(R.id.login_button);
         mLoginButton.setReadPermissions("user_photos","user_location","user_friends","user_birthday","user_likes");
         mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+
 
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -65,7 +50,26 @@ public class LoginActivity extends Activity {
                 new FacebookHelper(new FacebookHelper.FacebookLoginListener() {
                     @Override
                     public void fetchedFacebookInfoSuccess(String facebookToken, String facebookID) {
-                        mNetworkClient.login(facebookToken, facebookID);
+                        mNetworkClient.login(facebookToken, facebookID, new NetworkClient.LoginListener() {
+                            @Override
+                            public void loginSuccessed(String accessToken, String userID) {
+                                mNetworkClient.getUserInfo(new NetworkClient.UserInfoListener() {
+                                    @Override
+                                    public void userInfoFetched(CurrentUser currentUser) {
+                                        StorageManager.sharedInstance().setCurrentUser(currentUser);
+                                        Intent startMatchingProcess = new Intent(LoginActivity.this, PotentialMatchesActivity.class);
+                                        LoginActivity.this.startActivity(startMatchingProcess);
+                                        finish();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void loginFailed(String error) {
+                                Toast.makeText(LoginActivity.this,"Login failed, plese try again",Toast.LENGTH_LONG);
+                            }
+
+                        });
 
                     }
 

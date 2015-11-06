@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.idanr.tinderforjavaclass.Model.BaseUser;
+import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
 import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkManager;
 import com.example.idanr.tinderforjavaclass.R;
@@ -42,6 +43,8 @@ public class UserDetailsActivity extends Activity{
     MyAdapter mAdapter;
     PotentialMatch mPotentialMatch;
 
+    CurrentUser mCurrentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +52,9 @@ public class UserDetailsActivity extends Activity{
         setContentView(R.layout.user_details_activity);
         ButterKnife.bind(this);
 
+        mCurrentUser = StorageManager.sharedInstance().getCurrentUser();
         final int index = getIntent().getExtras().getInt("user_id");
-        mPotentialMatch= StorageManager.sharedInstance().getPotentialMatchAtIndex(index);
+        mPotentialMatch= mCurrentUser.getPotentialMatchAtIndex(index);
 
         mAdapter = new MyAdapter(getFragmentManager(),mPotentialMatch);
         mUserImages.setAdapter(mAdapter);
@@ -65,7 +69,7 @@ public class UserDetailsActivity extends Activity{
             @Override
             public void onPageSelected(int position) {
                 mPotentialMatch.setCurrentImagePage(position);
-                StorageManager.sharedInstance().setPotentialMatch(mPotentialMatch,index);
+//                StorageManager.sharedInstance().setPotentialMatch(mPotentialMatch,index);
             }
 
             @Override

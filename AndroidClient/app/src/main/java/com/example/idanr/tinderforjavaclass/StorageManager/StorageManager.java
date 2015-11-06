@@ -5,11 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
-import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
 import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.R;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 /**
@@ -20,6 +21,20 @@ public class StorageManager {
     static StorageManager mSharedInstace;
     private Context mContext;
     private CurrentUser mCurrentUser;
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    static public final String CURRENT_USER = "CURRENT_USER";
+
+    public CurrentUser getCurrentUser() {
+        return mCurrentUser;
+    }
+
+    public void setCurrentUser(CurrentUser user){
+        pcs.firePropertyChange(CURRENT_USER,mCurrentUser,user);
+        ConfigurationManager.sharedInstance().setCurrentUser(user);
+        mCurrentUser = user;
+    }
+
 //    private ArrayList<PotentialMatch> mPotentialMatches;
 
     public static StorageManager sharedInstance() {
@@ -35,11 +50,11 @@ public class StorageManager {
 
     public void initWithContext(Context context){
         mContext = context;
-        refreshData();
+        refreshCurrentUser();
 //        createTestPotentialMatches();
     }
 
-    public void refreshData(){
+    public void refreshCurrentUser(){
         mCurrentUser = ConfigurationManager.sharedInstance().getCurrentUser();
     }
 
@@ -68,23 +83,22 @@ public class StorageManager {
         return getPotentialMatches().size();
     }
 
-    public PotentialMatch getPotentialMatchAtIndex(int position){
-        return getPotentialMatches().get(position);
-    }
 
     public void setPotentialMatch(PotentialMatch potential, int index){
         getPotentialMatches().set(index, potential);
         ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(CURRENT_USER, listener);
+    }
+
+
 //    public ArrayList<PotentialMatch> getPotentialMatches(){
 //        return mPotentialMatches;
 //    }
 
-    public void remomoveTopPotentialMatches(int topToRemove){
-        getPotentialMatches().subList(0,topToRemove).clear();
-            ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
-    }
+
 
 
 }

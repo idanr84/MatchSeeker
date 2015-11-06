@@ -90,7 +90,18 @@ public class BaseUser {
         return mImageUrls.size();
     }
 
-    
+    public String toJson(){
+
+        try {
+            JSONObject json = new JSONObject();
+            json.put("id",userID);
+            return json.toString();
+
+        } catch (JSONException e){
+            return null;
+        }
+    }
+
     public static BaseUser fromJson(JSONObject data){
         try {
             String userID = data.getString("id");

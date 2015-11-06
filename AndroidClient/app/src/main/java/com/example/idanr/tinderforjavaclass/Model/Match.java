@@ -18,6 +18,10 @@ public class Match extends BaseUser {
         super(baseUser);
     }
 
+    public String toJson(){
+        return super.toJson();
+    }
+
     public static Match fromJson(JSONObject object){
         return  new Match(BaseUser.fromJson(object));
     }

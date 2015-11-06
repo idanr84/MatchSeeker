@@ -10,7 +10,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
+import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
+import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,21 +26,20 @@ import java.util.Map;
 public class NetworkClient {
 
     private final String BASE_URL = "http://tinderforjavaclass.herokuapp.com/";
-    private LoginListener mListener;
+    private final String AUTHORIZATION = "Authorization";
+
+    private final String TAG = getClass().getSimpleName();
 
     public interface LoginListener {
         void loginSuccessed(String accessToken,String userID);
         void loginFailed(String error);
+    }
+
+    public interface UserInfoListener{
         void userInfoFetched(CurrentUser currentUser);
-//        void potentialMatches(ArrayList<BaseUser> potentialMatches);
-//        void matches(ArrayList<BaseUser> potentialMatches);
     }
 
-    public NetworkClient(LoginListener listener){
-        mListener = listener;
-    }
-
-    public void login(String facebookToken,String facebookID) {
+    public void login(String facebookToken,String facebookID, final LoginListener listener) {
 
         final String LOGIN_METHOD = "login";
         final String FB_ID = "facebook_user_id";
@@ -60,9 +61,9 @@ public class NetworkClient {
                             String userID = data.getString("id");
                             ConfigurationManager.sharedInstance().setUserID(userID);
                             ConfigurationManager.sharedInstance().setAccessToken(accessToken);
-                            mListener.loginSuccessed(accessToken,userID);
+                            listener.loginSuccessed(accessToken,userID);
                         } catch (JSONException e) {
-                            mListener.loginFailed(e.getLocalizedMessage());
+                            listener.loginFailed(e.getLocalizedMessage());
                         }
 
 
@@ -70,7 +71,7 @@ public class NetworkClient {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mListener.loginFailed(error.getLocalizedMessage());
+                listener.loginFailed(error.getLocalizedMessage());
             }
         });
 
@@ -78,10 +79,9 @@ public class NetworkClient {
         NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
     }
 
-    public void getUserInfo(){
+    public void getUserInfo(final UserInfoListener listener){
         final String USER_INFO = "me";
         final String USER_ID = "user_id";
-        final String AUTHORIZATION = "AUTHORIZATION";
 
         Uri builtUri = Uri.parse(BASE_URL + USER_INFO).buildUpon()
                 .appendQueryParameter(USER_ID, ConfigurationManager.sharedInstance().getUserID())
@@ -93,7 +93,7 @@ public class NetworkClient {
                     @Override
                     public void onResponse(JSONObject response) {
                         CurrentUser currentUser =  CurrentUser.fromJson(response);
-                        mListener.userInfoFetched(currentUser);
+                        listener.userInfoFetched(currentUser);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -103,12 +103,48 @@ public class NetworkClient {
             @Override
             public Map<String, String> getHeaders ()throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("Authorization", ConfigurationManager.sharedInstance().getAccessToken());
+                map.put(AUTHORIZATION, ConfigurationManager.sharedInstance().getAccessToken());
                 return map;
             }
         };
 
         NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
+    }
+
+    public void updateServer(CurrentUser currentUser){
+        final String USER_INFO = "submit";
+
+        Uri builtUri = Uri.parse(BASE_URL + USER_INFO).buildUpon().build();
+
+        JSONObject body = null;
+        try {
+            body = new JSONObject(currentUser.toJson());
+        } catch (JSONException e){
+
+        }
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, builtUri.toString(),body,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG,"success syncing changes");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG,"failure syncing changes");
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders ()throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put(AUTHORIZATION, ConfigurationManager.sharedInstance().getAccessToken());
+                return map;
+            }
+        };
+
+        NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
+
     }
 
 }

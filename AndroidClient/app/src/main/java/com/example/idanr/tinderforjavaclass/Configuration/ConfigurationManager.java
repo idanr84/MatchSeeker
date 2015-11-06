@@ -1,8 +1,6 @@
 package com.example.idanr.tinderforjavaclass.Configuration;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
@@ -100,6 +98,6 @@ public class ConfigurationManager {
         Gson gson = new Gson();
         String json = gson.toJson(currentUser);
         mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(CURRENT_USER,json).apply();
-        StorageManager.sharedInstance().refreshData(); //TODO: do on background thread
+        //StorageManager.sharedInstance().refreshCurrentUser(); //TODO: do on background thread
     }
 }
