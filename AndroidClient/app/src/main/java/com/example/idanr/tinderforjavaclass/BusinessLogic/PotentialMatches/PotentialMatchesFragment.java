@@ -71,8 +71,6 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
 
         mCurrentUser = StorageManager.sharedInstance().getCurrentUser();
 
-        StorageManager.sharedInstance().addPropertyChangeListener(this);
-
         mCardLayout.setTransitionGroup(true);
         Fade fadeTransition = new Fade();
         fadeTransition.setDuration(1000);
@@ -196,6 +194,7 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
     @Override
     public void onStart() {
         super.onStart();
+        StorageManager.sharedInstance().addPropertyChangeListener(this);
 
         mCardLayout.reset(false);
         if (areMatchesAvailable()){
@@ -208,6 +207,7 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
     @Override
     public void onStop() {
         super.onStop();
+        StorageManager.sharedInstance().removePropertyChangedListener(this);
     }
 
     @Override

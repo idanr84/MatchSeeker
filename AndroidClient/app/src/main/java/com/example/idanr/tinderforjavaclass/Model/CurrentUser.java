@@ -17,12 +17,12 @@ import java.util.ArrayList;
  */
 public class CurrentUser extends BaseUser {
 
-    ArrayList<String> likes = new ArrayList<>();
-    ArrayList<String> dislikes = new ArrayList<>();
+    ArrayList<Integer> likes = new ArrayList<>();
+    ArrayList<Integer> dislikes = new ArrayList<>();
     ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
     ArrayList<Match> matches = new ArrayList<>();
 
-    public CurrentUser(String name, String age,String userID, ArrayList<String> imageUrls){
+    public CurrentUser(String name, String age,int userID, ArrayList<String> imageUrls){
         super(name,age,userID,imageUrls);
     }
 
@@ -32,27 +32,27 @@ public class CurrentUser extends BaseUser {
         this.matches = matches;
     }
 
-    public ArrayList<String> getLikes() {
+    public ArrayList<Integer> getLikes() {
         return likes;
     }
 
-    public void setLikes(ArrayList<String> likes) {
+    public void setLikes(ArrayList<Integer> likes) {
         this.likes = likes;
     }
 
-    public ArrayList<String> getDislikes() {
+    public ArrayList<Integer> getDislikes() {
         return dislikes;
     }
 
-    public void setDislikes(ArrayList<String> dislikes) {
+    public void setDislikes(ArrayList<Integer> dislikes) {
         this.dislikes = dislikes;
     }
 
-    public void addDislikedUserID(String userID){
+    public void addDislikedUserID(int userID){
         this.dislikes.add(userID);
     }
 
-    public void addLikedUserID(String userID){
+    public void addLikedUserID(int userID){
         this.likes.add(userID);
     }
 
@@ -94,7 +94,7 @@ public class CurrentUser extends BaseUser {
 
             JSONArray matchesArr = new JSONArray();
             for (Match match : matches){
-                matchesArr.put(match.getUserID());
+                matchesArr.put(new JSONObject(match.toJson()));
             }
             json.put("matched_users",matchesArr);
 

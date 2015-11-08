@@ -21,10 +21,10 @@ public class BaseUser {
 
     private String name;
     private String age;
-    private String userID;
+    private int userID;
     private ArrayList<String> mImageUrls;
 
-    public BaseUser(String name, String age, String userID, ArrayList<String> imageUrl){
+    public BaseUser(String name, String age, int userID, ArrayList<String> imageUrl){
         this.name = name;
         this.age = age;
         this.userID = userID;
@@ -44,7 +44,7 @@ public class BaseUser {
         }
     }
 
-    public BaseUser(String name, String age,String userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images){
+    public BaseUser(String name, String age,int userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images){
         this.name = name;
         this.age = age;
         this.userID = userID;
@@ -54,11 +54,11 @@ public class BaseUser {
         }
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 
@@ -94,7 +94,7 @@ public class BaseUser {
 
         try {
             JSONObject json = new JSONObject();
-            json.put("id",userID);
+            json.put("user_id",userID);
             return json.toString();
 
         } catch (JSONException e){
@@ -104,7 +104,7 @@ public class BaseUser {
 
     public static BaseUser fromJson(JSONObject data){
         try {
-            String userID = data.getString("id");
+            int userID = data.getInt("id");
             String name = data.getString("name");
             String age = data.getString("age");
             //String location = data.getString("location");
