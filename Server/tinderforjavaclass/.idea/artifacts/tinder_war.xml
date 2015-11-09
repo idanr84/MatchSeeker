@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tinder:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="tinder-1.war">
+      <element id="artifact" artifact-name="tinder:war exploded" />
+    </root>
+  </artifact>
+</component>
