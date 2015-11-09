@@ -158,4 +158,23 @@ public class CurrentUser extends BaseUser {
         }
         return listdata;
     }
+
+    public int getNewUnnotifiedMatchesCount(){
+        int counter=0;
+        for (Match match : matches ){
+            if (!match.getWasNotified()){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    public void markAllAsNotified(){
+        for (Match match : matches ){
+            if (!match.getWasNotified()){
+                match.setWasNotified(true);
+            }
+        }
+        StorageManager.sharedInstance().setCurrentUser(this);
+    }
 }

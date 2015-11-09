@@ -1,6 +1,7 @@
 package com.example.idanr.tinderforjavaclass.BusinessLogic.PotentialMatches;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -9,8 +10,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.CharacterPickerDialog;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -18,11 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 
+import com.example.idanr.tinderforjavaclass.BusinessLogic.Setting.SettingActivity;
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.CustomUI.SignoutAlert.SignoutAlert;
 import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
 import com.example.idanr.tinderforjavaclass.Initialization.InitializationManager;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
+import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.R;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.ProfilePictureView;
@@ -82,7 +90,6 @@ public class PotentialMatchesActivity extends Activity {
         setContentView(R.layout.user_matches_activity);
         ButterKnife.bind(this);
 
-
         String profileID = ConfigurationManager.sharedInstance().getFacebookID();
         if (profileID != null){
             mProfilePic.setProfileId(profileID);
@@ -121,7 +128,13 @@ public class PotentialMatchesActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 2) { //TODO : change into enum
+                if (position == 1){
+                    Intent settingIntent = new Intent(PotentialMatchesActivity.this, SettingActivity.class);
+                    startActivity(settingIntent,
+                            ActivityOptions.makeSceneTransitionAnimation(PotentialMatchesActivity.this).toBundle());
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+                else if (position == 2) { //TODO : change into enum
                     SignoutAlert dialog = new SignoutAlert();
                     dialog.show(getFragmentManager(), "Signout_Alert");
                 }

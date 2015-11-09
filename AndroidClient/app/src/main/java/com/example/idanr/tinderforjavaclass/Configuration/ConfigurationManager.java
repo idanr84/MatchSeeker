@@ -14,12 +14,21 @@ import java.beans.PropertyChangeSupport;
  */
 public class ConfigurationManager {
 
+    public static enum GENDER{
+        MALE,
+        FEMALE,
+        BOTH
+    }
+
     static public final String PREFERENCES_KEY = "tinder_preferences";
     static public final String FACEBOOK_TOKEN = "facebook_token";
     static public final String ACCESS_TOKEN = "access_token";
     static public final String FACEBOOK_IS_CONNECTED = "facebook_is_connected";
     static public final String FACEBOOK_ID = "facebook_id";
     static public final String USER_ID = "user_id";
+    static public final String GENDER_SETTING = "gender_setting";
+    static public final String AGE_MIN_SETTING = "age_min_setting";
+    static public final String AGE_MAX_SETTING = "age_max_setting";
 
 
     static public final String CURRENT_USER = "current_user";
@@ -84,7 +93,7 @@ public class ConfigurationManager {
     }
 
     public void setIsConnectedToFacebook(boolean isConnectedToFacebook) {
-        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putBoolean(FACEBOOK_IS_CONNECTED,isConnectedToFacebook).apply();
+        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putBoolean(FACEBOOK_IS_CONNECTED, isConnectedToFacebook).apply();
     }
 
     public CurrentUser getCurrentUser(){
@@ -97,7 +106,31 @@ public class ConfigurationManager {
     public void setCurrentUser(CurrentUser currentUser){
         Gson gson = new Gson();
         String json = gson.toJson(currentUser);
-        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(CURRENT_USER,json).apply();
+        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(CURRENT_USER, json).apply();
         //StorageManager.sharedInstance().refreshCurrentUser(); //TODO: do on background thread
+    }
+
+    public void setMinAge(int minAge){
+        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putInt(AGE_MIN_SETTING, minAge).apply();
+    }
+
+    public int getMinAge(){
+        return mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).getInt(AGE_MIN_SETTING, 18);
+    }
+
+    public int getMaxAge(){
+        return mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).getInt(AGE_MAX_SETTING, 35);
+    }
+
+    public void setMaxAge(int minAge){
+        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putInt(AGE_MAX_SETTING, minAge).apply();
+    }
+
+    public GENDER getGender(){
+        return GENDER.valueOf(mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).getString(GENDER_SETTING, "MALE"));
+    }
+
+    public void setGender(GENDER gender){
+        mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(GENDER_SETTING,gender.toString()).apply();
     }
 }

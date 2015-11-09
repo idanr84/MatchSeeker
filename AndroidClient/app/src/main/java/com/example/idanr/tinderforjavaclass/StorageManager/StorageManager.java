@@ -79,16 +79,6 @@ public class StorageManager {
         return  al;
     }
 
-    public int getNumberOfPotentialMatches(){
-        return getPotentialMatches().size();
-    }
-
-
-    public void setPotentialMatch(PotentialMatch potential, int index){
-        getPotentialMatches().set(index, potential);
-        ConfigurationManager.sharedInstance().setCurrentUser(mCurrentUser);
-    }
-
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(CURRENT_USER, listener);
     }
@@ -96,13 +86,5 @@ public class StorageManager {
     public void removePropertyChangedListener(PropertyChangeListener listener){
         pcs.removePropertyChangeListener(CURRENT_USER, listener);
     }
-
-
-//    public ArrayList<PotentialMatch> getPotentialMatches(){
-//        return mPotentialMatches;
-//    }
-
-
-
 
 }

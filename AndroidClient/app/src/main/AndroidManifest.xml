@@ -47,7 +47,11 @@
             </intent-filter>
         </activity>
 
-
+        <activity android:name=".BusinessLogic.Setting.SettingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.view" />
+            </intent-filter>
+        </activity>
 
     </application>
 

@@ -23,6 +23,7 @@ import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardSt
 import com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardUtils;
 import com.example.idanr.tinderforjavaclass.CustomUI.MatchAlert;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
+import com.example.idanr.tinderforjavaclass.Model.Match;
 import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkClient;
 import com.example.idanr.tinderforjavaclass.R;
@@ -71,6 +72,11 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
 
         mCurrentUser = StorageManager.sharedInstance().getCurrentUser();
 
+        if (mCurrentUser.getNewUnnotifiedMatchesCount() > 0){
+            MatchAlert.showAlert(getActivity(),"YAY!!","NEW MATCHES ARE WAITING, GO CHECK THEM OUT");
+            mCurrentUser = StorageManager.sharedInstance().getCurrentUser();
+        }
+
         mCardLayout.setTransitionGroup(true);
         Fade fadeTransition = new Fade();
         fadeTransition.setDuration(1000);
@@ -110,26 +116,7 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
                 else if (direction == CardUtils.DIRECTION_TOP_RIGHT || direction == CardUtils.DIRECTION_BOTTOM_RIGHT ) { // like{
                     if (potentialMatch.getState() == PotentialMatch.State.TRUE){
                         mCurrentUser.addMatch(potentialMatch);
-                        final AlertDialog alert = MatchAlert.instantiateAlert(getActivity());
-                        final Handler handler  = new Handler();
-                        final Runnable runnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                if (alert.isShowing()) {
-                                    alert.dismiss();
-                                }
-                            }
-                        };
-
-                        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog){
-
-                            }
-
-                        });
-                        alert.show();
-                        handler.postDelayed(runnable, 2000);
+                        MatchAlert.showAlert(getActivity(),"MATCH!","WAY TO GO, KEEP ROLLING!");
 
                     } else {
                         mCurrentUser.addLikedUserID(potentialMatch.getUserID());
@@ -200,6 +187,9 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
         if (areMatchesAvailable()){
             mNoMatchesView.setVisibility(View.GONE);
             mCardLayout.setVisibility(View.VISIBLE);
+        }else {
+            mNoMatchesView.setVisibility(View.VISIBLE);
+            mCardLayout.setVisibility(View.GONE);
         }
 
     }
