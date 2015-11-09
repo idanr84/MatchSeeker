@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 public class ApiResult {
     public String status;
@@ -18,13 +18,13 @@ public class ApiResult {
     public Object data;
     
     public ApiResult(String status,String message,Object data){
-        this.status=status;
-        this.message=message;
-        this.data=data;
+        this.status = status;
+        this.message = message;
+        this.data = data;
     }
     
     public String toJson(){
-        Gson g=new Gson();
-        return g.toJson(this);
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

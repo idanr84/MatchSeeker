@@ -6,6 +6,7 @@
 
 package com.fbapp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
@@ -13,20 +14,20 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 public class ServletHelper {
     
     public static String getBodyAsString(HttpServletRequest request)
     throws Exception{
-        java.io.BufferedReader br=request.getReader();
-        StringBuilder sb=new StringBuilder();
-        String str=br.readLine();
-        while(str!=null){
-            sb.append(str);
-            str=br.readLine();
+        BufferedReader requestReader = request.getReader();
+        StringBuilder stringBuilder = new StringBuilder();
+        String readLine = requestReader.readLine();
+        while(readLine != null){
+            stringBuilder.append(readLine);
+            readLine = requestReader.readLine();
         }
-        return sb.toString();
+        return stringBuilder.toString();
     }
     
     public static void writeResponse(ApiResult result,HttpServletResponse response)

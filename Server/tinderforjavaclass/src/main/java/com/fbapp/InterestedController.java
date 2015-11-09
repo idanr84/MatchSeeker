@@ -19,44 +19,40 @@ import com.fbapp.model.InterestedModel;
 import com.fbapp.model.UserMatch;
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "InterestedController", urlPatterns = {"/interested"})
 public class InterestedController extends HttpServlet {
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken = servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+            ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            String jsonBody=ServletHelper.getBodyAsString(request);
-            //response.getWriter().write(jsonBody);
-            Gson gs=new Gson();
-            InterestedModel sm=gs.fromJson(jsonBody,InterestedModel.class);
-            db.open();
-            User u=db.getUserByToken(accessToken);
-            if (u==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            String jsonBody = ServletHelper.getBodyAsString(servletRequest);
+            //servletResponse.getWriter().write(jsonBody);
+            Gson gson = new Gson();
+            InterestedModel interestedModel = gson.fromJson(jsonBody,InterestedModel.class);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+            if (user == null){
+                dbHelper.close();
+                ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                u.gender_interested=sm.gender;
-                u.max_age_interested=sm.max_age;
-                u.min_age_interested=sm.min_age;
-                db.updateInterested(u);
-                ApiResult result=new ApiResult("200",null,null);
-                ServletHelper.writeResponse(result, response);
+                user.gender_interested = interestedModel.gender;
+                user.max_age_interested = interestedModel.max_age;
+                user.min_age_interested = interestedModel.min_age;
+                dbHelper.updateInterested(user);
+                ServletHelper.writeResponse(new ApiResult("200",null,null), servletResponse);
             }
-            db.close();
+            dbHelper.close();
         }catch(Exception ex){
-            db.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            dbHelper.close();
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
 
@@ -72,8 +68,7 @@ public class InterestedController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ApiResult result=new ApiResult("405","GET not supported",null);
-        ServletHelper.writeResponse(result, response);
+        ServletHelper.writeResponse(new ApiResult("405","GET not supported",null), response);
     }
 
     /**
@@ -97,7 +92,7 @@ public class InterestedController extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet lets users edit their settings of interest";
     }
 
 }

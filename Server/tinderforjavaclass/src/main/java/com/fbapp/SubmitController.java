@@ -19,70 +19,71 @@ import com.fbapp.model.SubmitModel;
 import com.fbapp.model.UserMatch;
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "SubmitController", urlPatterns = {"/submit"})
 public class SubmitController extends HttpServlet {
     
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken = servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+            ApiResult apiResult = new ApiResult("400","Authorization header missing",null);
+            ServletHelper.writeResponse(apiResult,servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            String jsonBody=ServletHelper.getBodyAsString(request);
-            //response.getWriter().write(jsonBody);
-            Gson gs=new Gson();
-            SubmitModel sm=gs.fromJson(jsonBody,SubmitModel.class);
-            db.open();
-            User u=db.getUserByToken(accessToken);
-            if (u==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            String jsonBody = ServletHelper.getBodyAsString(servletRequest);
+            //servletResponse.getWriter().write(jsonBody);
+            Gson gson = new Gson();
+            SubmitModel submitModel = gson.fromJson(jsonBody,SubmitModel.class);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+
+            if (user == null){
+                dbHelper.close();
+                ApiResult apiResult = new ApiResult("403","Invalid access token",null);
+                ServletHelper.writeResponse(apiResult,servletResponse);
             }else{
-                if (sm.liked_users!=null){
-                    for (int a=0;a<sm.liked_users.size();a++){
-                        db.removeLike(u.id,sm.liked_users.get(a));
-                        db.saveLike(u.id,sm.liked_users.get(a));
+                if (submitModel.liked_users != null){
+                    for (int a = 0; a < submitModel.liked_users.size(); a++){
+                        dbHelper.removeLike(user.id, submitModel.liked_users.get(a));
+                        dbHelper.saveLike(user.id, submitModel.liked_users.get(a));
                     }
                 }
-                if (sm.disliked_users!=null){
-                    for (int a=0;a<sm.disliked_users.size();a++){
-                        db.removeDislike(u.id,sm.disliked_users.get(a));
-                        db.saveDislike(u.id,sm.disliked_users.get(a));
+                if (submitModel.disliked_users != null){
+                    for (int a = 0; a < submitModel.disliked_users.size(); a++){
+                        dbHelper.removeDislike(user.id, submitModel.disliked_users.get(a));
+                        dbHelper.saveDislike(user.id, submitModel.disliked_users.get(a));
                     }
                 }
-                if (sm.matched_users!=null){
-                    UserMatch um=new UserMatch();
-                    um.user=new User();
-                    for (int a=0;a<sm.matched_users.size();a++){
-                        db.removeMatch(u.id,sm.matched_users.get(a).user_id);
-                        um.user.id=sm.matched_users.get(a).user_id;
-                        um.match_viewed=sm.matched_users.get(a).match_viewed;
-                        um.match_announced=sm.matched_users.get(a).match_announced;
-                        db.saveMatch(u.id,um);
+                if (submitModel.matched_users != null){
+                    UserMatch userMatch = new UserMatch();
+                    userMatch.user = new User();
+                    for (int a = 0; a < submitModel.matched_users.size(); a++){
+                        dbHelper.removeMatch(user.id, submitModel.matched_users.get(a).user_id);
+                        userMatch.user.id = submitModel.matched_users.get(a).user_id;
+                        userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
+                        userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
+                        dbHelper.saveMatch(user.id, userMatch);
                         
                         //now save another
-                        db.removeMatch(sm.matched_users.get(a).user_id,u.id);
-                        um.user.id=u.id;
-                        um.match_viewed=sm.matched_users.get(a).match_viewed;
-                        um.match_announced=sm.matched_users.get(a).match_announced;
-                        db.saveMatch(sm.matched_users.get(a).user_id,um);
+                        dbHelper.removeMatch(submitModel.matched_users.get(a).user_id, user.id);
+                        userMatch.user.id = user.id;
+                        userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
+                        userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
+                        dbHelper.saveMatch(submitModel.matched_users.get(a).user_id, userMatch);
                     }
                 }
-                ApiResult result=new ApiResult("200",null,null);
-                ServletHelper.writeResponse(result, response);
+                ApiResult apiResult = new ApiResult("200",null,null);
+                ServletHelper.writeResponse(apiResult, servletResponse);
             }
-            db.close();
+            dbHelper.close();
         }catch(Exception ex){
-            db.close();
+            dbHelper.close();
             ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            ServletHelper.writeResponse(result,servletResponse);
         }
     }
 

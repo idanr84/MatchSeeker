@@ -7,19 +7,21 @@
 
 package com.fbapp;
 
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
 import com.restfb.types.User;
 import com.restfb.types.Page;
 import com.restfb.types.Album;
 import com.restfb.types.Photo;
 import com.restfb.Connection;
 import java.util.List;
-
+import java.util.Vector;
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 public class FbHelper {
-    com.restfb.FacebookClient facebookClient=null;
+    FacebookClient facebookClient;
     String accessToken;
 
     public FbHelper(String accessToken){
@@ -28,11 +30,11 @@ public class FbHelper {
     }
     
     public List<Page> getAllLikes(){
-        List<Page> pagesList=new java.util.Vector<Page>();
-        Connection<Page> pages=this.getLikes();
+        List<Page> pagesList = new Vector<Page>();
+        Connection<Page> pages = this.getLikes();
         pagesList.addAll(pages.getData());
         while(pages.hasNext()){
-            pages=this.getMoreLikes(pages.getNextPageUrl());
+            pages = this.getMoreLikes(pages.getNextPageUrl());
             pagesList.addAll(pages.getData());
         }
         return pagesList;
@@ -40,49 +42,49 @@ public class FbHelper {
     
     public Connection<Page> getMoreLikes(String nextUrl){
         //com.restfb.Parameter pm=com.restfb.Parameter.with("fields","id,name,category");
-        Connection<Page> pages=facebookClient.fetchConnectionPage(nextUrl,Page.class);
+        Connection<Page> pages = facebookClient.fetchConnectionPage(nextUrl,Page.class);
         return pages;
     }
     
     public Connection<Page> getLikes(){
-        com.restfb.Parameter pm=com.restfb.Parameter.with("fields","id,name,category");
-        Connection<Page> pages=facebookClient.fetchConnection("me/likes",Page.class,pm);
+        Parameter parameter = Parameter.with("fields","id,name,category");
+        Connection<Page> pages = facebookClient.fetchConnection("me/likes",Page.class,parameter);
         return pages;
     }
     
     private static com.fbapp.model.User createFromFbUser(User user){
-        com.fbapp.model.User u=new com.fbapp.model.User();
-        u.birthday_as_date=user.getBirthdayAsDate();
-        u.location=user.getLocation()==null?null:user.getLocation().getName();
-        u.name=user.getName();
-        u.profile_pic_url=user.getPicture()==null?null:user.getPicture().getUrl();
-        u.profile_id=user.getId();
-        u.profile_url=user.getLink();
-        u.gender=user.getGender()==null?"":user.getGender();
-        return u;
+        com.fbapp.model.User user1 = new com.fbapp.model.User();
+        user1.birthday_as_date = user.getBirthdayAsDate();
+        user1.location = user.getLocation() == null? null : user.getLocation().getName();
+        user1.name = user.getName();
+        user1.profile_pic_url = user.getPicture() == null ? null : user.getPicture().getUrl();
+        user1.profile_id = user.getId();
+        user1.profile_url = user.getLink();
+        user1.gender = user.getGender() == null ? "" : user.getGender();
+        return user1;
     }
     
     public com.fbapp.model.User getMe(){
         //User user = facebookClient.fetchObject("me",User.class);
-        com.restfb.Parameter pm=com.restfb.Parameter.with("fields","id,name,birthday,picture.type(large),first_name,last_name,location,link");
-        User user=facebookClient.fetchObject("me",User.class,pm);
+        Parameter parameter = Parameter.with("fields","id,name,birthday,picture.type(large),first_name,last_name,location,link");
+        User user = facebookClient.fetchObject("me",User.class,parameter);
         return createFromFbUser(user);
     }
     
-    public List<com.restfb.types.Album> getAlbums(){
+    public List<Album> getAlbums(){
         //User user = facebookClient.fetchObject("me",User.class);
-        com.restfb.Parameter pm=com.restfb.Parameter.with("fields","id,name,type");
-        Connection<Album> albums=facebookClient.fetchConnection("me/albums",Album.class,pm);
-        List<Album> pagesList=new java.util.Vector<Album>();
+        Parameter parameter = Parameter.with("fields","id,name,type");
+        Connection<Album> albums = facebookClient.fetchConnection("me/albums",Album.class,parameter);
+        List<Album> pagesList = new Vector<Album>();
         pagesList.addAll(albums.getData());
         return pagesList;
     }
     
-    public List<com.restfb.types.Photo> getPictures(String albumid){
+    public List<Photo> getPictures(String albumid){
         //User user = facebookClient.fetchObject("me",User.class);
-        com.restfb.Parameter pm=com.restfb.Parameter.with("fields","id,picture.type(large)");
-        Connection<Photo> albums=facebookClient.fetchConnection(albumid+"/photos",Photo.class,pm);
-        List<Photo> pagesList=new java.util.Vector<Photo>();
+        Parameter parameter = Parameter.with("fields","id,picture.type(large)");
+        Connection<Photo> albums = facebookClient.fetchConnection(albumid + "/photos", Photo.class,parameter);
+        List<Photo> pagesList = new Vector<Photo>();
         pagesList.addAll(albums.getData());
         return pagesList;
     }

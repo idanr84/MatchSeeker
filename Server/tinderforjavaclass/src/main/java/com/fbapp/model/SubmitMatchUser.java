@@ -8,7 +8,7 @@ package com.fbapp.model;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 public class SubmitMatchUser {
     public long user_id;

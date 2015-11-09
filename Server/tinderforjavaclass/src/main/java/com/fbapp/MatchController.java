@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "Match", urlPatterns = {"/matches"})
 public class MatchController extends HttpServlet {
@@ -27,43 +27,39 @@ public class MatchController extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param servletRequest servlet servletRequest
+     * @param servletResponse servlet servletResponse
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processGetRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processGetRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken = servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+            ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            db.open();
-            User u=db.getUserByToken(accessToken);
-            if (u==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+            if (user == null){
+                dbHelper.close();
+                ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                List<UserMatch> users=db.getMatchedUsers(u.id);
+                List<UserMatch> users = dbHelper.getMatchedUsers(user.id);
                 for (int a=0;a<users.size();a++){
-                    UserMatch pmu=users.get(a);
-                    pmu.user.images=db.getUserImages(pmu.user.id);
-                    users.set(a,pmu);
+                    UserMatch userMatch = users.get(a);
+                    userMatch.user.images = dbHelper.getUserImages(userMatch.user.id);
+                    users.set(a,userMatch);
                 }
-                db.close();
-                ApiResult result=new ApiResult("200",null,users);
-                ServletHelper.writeResponse(result, response);
+                dbHelper.close();
+                ServletHelper.writeResponse(new ApiResult("200",null,users), servletResponse);
                 users.clear();
             }
         }catch(Exception ex){
-            db.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            dbHelper.close();
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
 
@@ -76,8 +72,7 @@ public class MatchController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ApiResult result=new ApiResult("405","POST not supported",null);
-        ServletHelper.writeResponse(result, response);
+        ServletHelper.writeResponse(new ApiResult("405","POST not supported",null), response);
     }
 
     /**
@@ -87,7 +82,7 @@ public class MatchController extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Short description";
+        return "This servlet calaulates matching users";
     }// </editor-fold>
 
 }

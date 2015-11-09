@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 public class SubmitModel {
     public List<Long> liked_users;

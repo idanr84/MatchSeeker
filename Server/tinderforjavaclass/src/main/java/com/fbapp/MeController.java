@@ -19,128 +19,128 @@ import com.google.gson.Gson;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "MeController", urlPatterns = {"/me"})
 public class MeController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for HTTP <code>GET</code> and <code>POST</code>
+     * method.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param servletRequest servlet servletRequest
+     * @param servletResponse servlet servletResponse
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken = servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+//            ApiResult apiResult = new ApiResult("400","Authorization header missing",null);
+            ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            db.open();
-            User user=db.getUserByToken(accessToken);
-            if (user==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+            if (user == null){
+                dbHelper.close();
+//                ApiResult apiResult = new ApiResult("403","Invalid access token",null);
+                ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                MeModel me=new MeModel();
+                MeModel meModel = new MeModel();
                 try{
-                    user.images=db.getUserImages(user.id);
-                    me.user=user;
-                    me.potential_matches=db.getPotentialMatchingUsers(user.id);
-                    for (int a=0;a<me.potential_matches.size();a++){
-                        PotentialMatchUser pmu=me.potential_matches.get(a);
-                        pmu.images=db.getUserImages(pmu.id);
-                        me.potential_matches.set(a,pmu);
+                    user.images = dbHelper.getUserImages(user.id);
+                    meModel.user = user;
+                    meModel.potential_matches = dbHelper.getPotentialMatchingUsers(user.id);
+                    for (int a=0; a<meModel.potential_matches.size(); a++){
+                        PotentialMatchUser potentialMatchUser = meModel.potential_matches.get(a);
+                        potentialMatchUser.images = dbHelper.getUserImages(potentialMatchUser.id);
+                        meModel.potential_matches.set(a,potentialMatchUser);
                     }
-                    me.matched_users=db.getMatchedUsers(user.id);
-                    for (int a=0;a<me.matched_users.size();a++){
-                        UserMatch pmu=me.matched_users.get(a);
-                        pmu.user.images=db.getUserImages(pmu.user.id);
-                        me.matched_users.set(a,pmu);
+                    meModel.matched_users = dbHelper.getMatchedUsers(user.id);
+                    for (int a=0; a<meModel.matched_users.size(); a++){
+                        UserMatch userMatch = meModel.matched_users.get(a);
+                        userMatch.user.images = dbHelper.getUserImages(userMatch.user.id);
+                        meModel.matched_users.set(a,userMatch);
                     }
-                    db.close();
-                    //response.getWriter().write("Helo");
-                    ApiResult result=new ApiResult("200",null,me);
-                    ServletHelper.writeResponse(result,response);
+                    dbHelper.close();
+                    ServletHelper.writeResponse(new ApiResult("200",null,meModel),servletResponse);
                 }catch(Exception ex){
-                    db.close();
-                    //response.getWriter().write("Helo: "+ex.getMessage());
+                    dbHelper.close();
                     throw ex;
                 }
             }
         }catch(Exception ex){
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
-    
-    protected void processPostRequest(HttpServletRequest request, HttpServletResponse response)
+
+    /**
+     * Processes requests for HTTP <code>POST</code>
+     * method.
+     *
+     * @param servletRequest servlet servletRequest
+     * @param servletResponse servlet servletResponse
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processPostRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken=servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+            ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            String jsonBody=ServletHelper.getBodyAsString(request);
-            //response.getWriter().write(jsonBody);
-            Gson gs=new Gson();
-            SubmitModel sm=gs.fromJson(jsonBody,SubmitModel.class);
-            db.open();
-            User u=db.getUserByToken(accessToken);
-            if (u==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            String jsonBody = ServletHelper.getBodyAsString(servletRequest);
+            Gson gson = new Gson();
+            SubmitModel submitModel = gson.fromJson(jsonBody,SubmitModel.class);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+            if (user == null){
+                dbHelper.close();
+                ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                if (sm.liked_users!=null){
-                    for (int a=0;a<sm.liked_users.size();a++){
-                        db.removeLike(u.id,sm.liked_users.get(a));
-                        db.saveLike(u.id,sm.liked_users.get(a));
+                if (submitModel.liked_users != null){
+                    for (int a = 0; a<submitModel.liked_users.size(); a++){
+                        dbHelper.removeLike(user.id, submitModel.liked_users.get(a));
+                        dbHelper.saveLike(user.id, submitModel.liked_users.get(a));
                     }
                 }
-                if (sm.disliked_users!=null){
-                    for (int a=0;a<sm.disliked_users.size();a++){
-                        db.removeDislike(u.id,sm.disliked_users.get(a));
-                        db.saveDislike(u.id,sm.disliked_users.get(a));
+                if (submitModel.disliked_users != null){
+                    for (int a = 0; a < submitModel.disliked_users.size(); a++){
+                        dbHelper.removeDislike(user.id, submitModel.disliked_users.get(a));
+                        dbHelper.saveDislike(user.id, submitModel.disliked_users.get(a));
                     }
                 }
-                if (sm.matched_users!=null){
-                    UserMatch um=new UserMatch();
-                    um.user=new User();
-                    for (int a=0;a<sm.matched_users.size();a++){
-                        db.removeMatch(u.id,sm.matched_users.get(a).user_id);
-                        um.user.id=sm.matched_users.get(a).user_id;
-                        um.match_viewed=sm.matched_users.get(a).match_viewed;
-                        um.match_announced=sm.matched_users.get(a).match_announced;
-                        db.saveMatch(u.id,um);
+                if (submitModel.matched_users!=null){
+                    UserMatch userMatch = new UserMatch();
+                    userMatch.user = new User();
+                    for (int a=0; a<submitModel.matched_users.size(); a++){
+                        dbHelper.removeMatch(user.id, submitModel.matched_users.get(a).user_id);
+                        userMatch.user.id = submitModel.matched_users.get(a).user_id;
+                        userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
+                        userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
+                        dbHelper.saveMatch(user.id, userMatch);
                         
                         //now save another
-                        db.removeMatch(sm.matched_users.get(a).user_id,u.id);
-                        um.user.id=u.id;
-                        um.match_viewed=sm.matched_users.get(a).match_viewed;
-                        um.match_announced=sm.matched_users.get(a).match_announced;
-                        db.saveMatch(sm.matched_users.get(a).user_id,um);
+                        dbHelper.removeMatch(submitModel.matched_users.get(a).user_id, user.id);
+                        userMatch.user.id = user.id;
+                        userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
+                        userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
+                        dbHelper.saveMatch(submitModel.matched_users.get(a).user_id, userMatch);
                     }
                 }
-                ApiResult result=new ApiResult("200",null,null);
-                ServletHelper.writeResponse(result, response);
+                ServletHelper.writeResponse(new ApiResult("200",null,null), servletResponse);
             }
-            db.close();
+            dbHelper.close();
         }catch(Exception ex){
-            db.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            dbHelper.close();
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
     

@@ -8,17 +8,24 @@ package com.fbapp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.fbapp.model.*;
+import com.restfb.types.Album;
+import com.restfb.types.Page;
+import com.restfb.types.Photo;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "UserLogin", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
@@ -27,111 +34,108 @@ public class LoginController extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param servletRequest servlet servletRequest
+     * @param servletResponse servlet servletResponse
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        PrintWriter wr=response.getWriter();
-        String fbAccessToken=request.getParameter("access_token");
-        String fbUserId=request.getParameter("facebook_user_id");
-        if (fbAccessToken==null){
-            ApiResult result=new ApiResult("400","Parameter access_token missing",null);
-            ServletHelper.writeResponse(result,response);
+        PrintWriter wr = servletResponse.getWriter();
+        String fbAccessToken = servletRequest.getParameter("access_token");
+        String fbUserId = servletRequest.getParameter("facebook_user_id");
+        if (fbAccessToken == null){
+            ServletHelper.writeResponse(new ApiResult("400","Parameter access_token missing",null),servletResponse);
             return;
         }
         if (fbUserId==null){
-            ApiResult result=new ApiResult("400","Parameter facebook_user_id missing",null);
-            ServletHelper.writeResponse(result,response);
+            ServletHelper.writeResponse(new ApiResult("400","Parameter facebook_user_id missing",null),servletResponse);
             return;
         }
         
-        User user=null;
-        DbHelper dh=new DbHelper();
+        User user;
+        DbHelper dbHelper = new DbHelper();
         try{
-            dh.open();
-            user=dh.getUserByFbId(fbUserId);
-            dh.close();
+            dbHelper.open();
+            user = dbHelper.getUserByFbId(fbUserId);
+            dbHelper.close();
 //            if (user!=null){
 //                User su=new User();
 //                su.id=user.id;
 //                su.accessToken=user.accessToken;
 //                ApiResult result=new ApiResult("200",null,su);
-//                ServletHelper.writeResponse(result,response);
+//                ServletHelper.writeResponse(result,servletResponse);
 //            }
         }catch(Exception ex){
-            dh.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            dbHelper.close();
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
             return;
         }
         
         try{
-            FbHelper fh=new FbHelper(fbAccessToken);
-            User fbuser=fh.getMe();
-            if (user==null){
-                user=new User();
-                user.id=0;
+            FbHelper fbHelper = new FbHelper(fbAccessToken);
+            User fbuser = fbHelper.getMe();
+            if (user == null){
+                user = new User();
+                user.id = 0;
             }
-            user.birthday_as_date=fbuser.birthday_as_date;
-            user.gender=fbuser.gender;
-            user.profile_url=fbuser.profile_url;
-            user.profile_pic_url=fbuser.profile_pic_url;
-            user.profile_id=fbuser.profile_id;
-            user.location=fbuser.location;
-            user.name=fbuser.name;
-            user.facebook_user_id=fbUserId;
-            user.fbAccessToken=fbAccessToken;
-            user.age=DbHelper.getAge(user.birthday_as_date);
-            if (user.id==0){
-                if (user.gender.toLowerCase().compareTo("m")==0 || user.gender.toLowerCase().compareTo("male")==0){
+            user.birthday_as_date = fbuser.birthday_as_date;
+            user.gender = fbuser.gender;
+            user.profile_url = fbuser.profile_url;
+            user.profile_pic_url = fbuser.profile_pic_url;
+            user.profile_id = fbuser.profile_id;
+            user.location = fbuser.location;
+            user.name = fbuser.name;
+            user.facebook_user_id = fbUserId;
+            user.fbAccessToken = fbAccessToken;
+            user.age = DbHelper.getAge(user.birthday_as_date);
+            if (user.id == 0){
+                if (user.gender.equalsIgnoreCase("m") || user.gender.equalsIgnoreCase("male")){
                     user.gender_interested="female";
-                }else if (user.gender.toLowerCase().compareTo("f")==0 || user.gender.toLowerCase().compareTo("female")==0){
+                }else if (user.gender.equalsIgnoreCase("f") || user.gender.equalsIgnoreCase("female")){
                     user.gender_interested="male";
                 }else{
                     user.gender_interested="both";
                 }
-                if (user.age>0){
-                    user.min_age_interested=user.age-10;
-                    user.max_age_interested=user.age+10;
+                if (user.age > 0){
+                    user.min_age_interested = user.age-10;
+                    user.max_age_interested = user.age+10;
                 }else{
                     user.min_age_interested=18;
                     user.max_age_interested=35;
                 }
             }
             
-            String tempAccessToken=null;
-            if (user.id==0){
+            String tempAccessToken = null;
+            if (user.id == 0){
                 // algorithm can be "MD5", "SHA-1", "SHA-256"
-                java.security.MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
-                String toEncode=fbUserId+String.valueOf((new java.util.Date()).getTime());
+                MessageDigest digest = MessageDigest.getInstance("MD5");
+                String toEncode = fbUserId + String.valueOf((new Date()).getTime());
                 byte[] inputBytes = toEncode.getBytes();// get bytes array from message
                 byte[] hashBytes = digest.digest(inputBytes);
                 // convert hash bytes to string (usually in hexadecimal form)
-                String encodedStr=String.format("%x", new java.math.BigInteger(1, hashBytes));
-                tempAccessToken=encodedStr;
-                user.accessToken=encodedStr;
+                String encodedStr = String.format("%x", new BigInteger(1, hashBytes));
+                tempAccessToken = encodedStr;
+                user.accessToken = encodedStr;
             }else{
-                tempAccessToken=user.accessToken;
+                tempAccessToken = user.accessToken;
             }
-            
-            List<com.restfb.types.Album> albums=fh.getAlbums();
-            for (int a=0;a<albums.size();a++){
-                com.restfb.types.Album alb=albums.get(a);
-                //wr.print(alb.getName()+"<br />");
-                if (alb.getType().contains("profile")){
-                    user.images=new java.util.Vector<UserImage>();
+
+            List<Album> albums = fbHelper.getAlbums();
+            for (int a=0; a<albums.size(); a++){
+                Album album = albums.get(a);
+                //wr.print(album.getName()+"<br />");
+                if (album.getType().contains("profile")){
+                    user.images = new Vector<UserImage>();
                     //wr.print("Yes profile<br />");
-                    List<com.restfb.types.Photo> photos=fh.getPictures(alb.getId());
-                    int photoCount=0;
-                    for (int b=0;b<photos.size();b++){
-                        com.restfb.types.Photo pt=photos.get(b);
-                        UserImage ui=new UserImage();
-                        ui.picture_url=pt.getPicture();
-                        user.images.add(ui);
-                        ui=null;
+                    List<Photo> photos = fbHelper.getPictures(album.getId());
+                    int photoCount = 0;
+                    for (int b=0; b<photos.size(); b++){
+                        Photo photo = photos.get(b);
+                        UserImage userImage = new UserImage();
+                        userImage.picture_url = photo.getPicture();
+                        user.images.add(userImage);
+                        userImage=null;
                         photoCount++;
                         if (photoCount==5)
                             break;
@@ -141,40 +145,38 @@ public class LoginController extends HttpServlet {
                 }
             }
             albums.clear();
-            List<com.restfb.types.Page> pages=fh.getAllLikes();
+            List<Page> pages = fbHelper.getAllLikes();
             try{
-                //dh.removeUserByFbId(fbUserId);
-                if (user.id==0){
-                    dh.saveUser(user);                
-                    user=dh.getUserByToken(user.accessToken);
+                //dbHelper.removeUserByFbId(fbUserId);
+                if (user.id == 0){
+                    dbHelper.saveUser(user);
+                    user = dbHelper.getUserByToken(user.accessToken);
                 }
-                List<UserImage> imgs=user.images;
-                user.accessToken=tempAccessToken;
-                user.images=imgs;
-                dh.removeUserImages(user.id);
-                if (user.images!=null){
-                    for (int a=0;a<user.images.size();a++){
-                        UserImage img=user.images.get(a);
-                        img.user_id=user.id;
-                        user.images.set(a,img);
+                List<UserImage> userImageList = user.images;
+                user.accessToken = tempAccessToken;
+                user.images = userImageList;
+                dbHelper.removeUserImages(user.id);
+                if (user.images != null){
+                    for (int a=0; a<user.images.size(); a++){
+                        UserImage userImage = user.images.get(a);
+                        userImage.user_id = user.id;
+                        user.images.set(a,userImage);
                     }
-                    dh.saveUserImages(user.images);
+                    dbHelper.saveUserImages(user.images);
                 }
-                dh.removeUserLikes(user.id);
-                dh.savePages(user.id, pages);
-                dh.close();
-                User su=new User();
-                su.id=user.id;
-                su.accessToken=user.accessToken;
-                ApiResult result=new ApiResult("200",null,su);
-                ServletHelper.writeResponse(result,response);
+                dbHelper.removeUserLikes(user.id);
+                dbHelper.savePages(user.id, pages);
+                dbHelper.close();
+                User user1 = new User();
+                user1.id = user.id;
+                user1.accessToken = user.accessToken;
+                ServletHelper.writeResponse(new ApiResult("200",null,user1),servletResponse);
             }catch(Exception ex){
-                dh.close();
+                dbHelper.close();
                 throw ex;
             }
         }catch(Exception ex){
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
     

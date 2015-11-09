@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Rameez Usmani
+ * @author Yaara Shoham
  */
 @WebServlet(name = "PotentialMatches", urlPatterns = {"/potentialmatches"})
 public class PotentialMatchController extends HttpServlet {
@@ -27,43 +27,43 @@ public class PotentialMatchController extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
+     * @param servletRequest servletRequest for potential matches
+     * @param servletResponse servletResponse
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
-        String accessToken=request.getHeader("Authorization");
-        if (accessToken==null){
-            ApiResult result=new ApiResult("400","Authorization header missing",null);
-            ServletHelper.writeResponse(result,response);
+        String accessToken=servletRequest.getHeader("Authorization");
+        if (accessToken == null){
+//            ApiResult apiResult = new ApiResult("400","Authorization header missing",null);
+            ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper db=new DbHelper();
+        DbHelper dbHelper = new DbHelper();
         try{
-            db.open();
-            User u=db.getUserByToken(accessToken);
-            if (u==null){
-                db.close();
-                ApiResult result=new ApiResult("403","Invalid access token",null);
-                ServletHelper.writeResponse(result,response);
+            dbHelper.open();
+            User user = dbHelper.getUserByToken(accessToken);
+            if (user == null){
+                dbHelper.close();
+//                ApiResult apiResult = new ApiResult("403","Invalid access token",null);
+                ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                List<PotentialMatchUser> users=db.getPotentialMatchingUsers(u.id);
-                for (int a=0;a<users.size();a++){
-                    PotentialMatchUser pmu=users.get(a);
-                    pmu.images=db.getUserImages(pmu.id);
-                    users.set(a,pmu);
+                List<PotentialMatchUser> users = dbHelper.getPotentialMatchingUsers(user.id);
+                for (int a= 0; a<users.size(); a++){
+                    PotentialMatchUser potentialMatchUser = users.get(a);
+                    potentialMatchUser.images = dbHelper.getUserImages(potentialMatchUser.id);
+                    users.set(a,potentialMatchUser);
                 }
-                db.close();
-                ApiResult result=new ApiResult("200",null,users);
-                ServletHelper.writeResponse(result, response);
+                dbHelper.close();
+//                ApiResult apiResult = new ApiResult("200",null,users);
+                ServletHelper.writeResponse(new ApiResult("200",null,users), servletResponse);
                 users.clear();
             }
         }catch(Exception ex){
-            db.close();
-            ApiResult result=new ApiResult("400",ex.getMessage(),null);
-            ServletHelper.writeResponse(result,response);
+            dbHelper.close();
+//            ApiResult apiResult = new ApiResult("400",ex.getMessage(),null);
+            ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }
 
