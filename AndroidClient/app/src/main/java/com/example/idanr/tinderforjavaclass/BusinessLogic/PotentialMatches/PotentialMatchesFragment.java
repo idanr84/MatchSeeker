@@ -134,6 +134,7 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
                 Intent i = new Intent(getActivity(),
                         UserDetailsActivity.class);
 
+                i.putExtra("is_match",false);
                 i.putExtra("user_id",mCurrentIndex);
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
                         getActivity(), mCardLayout.topCardImageView(), "user_image");

@@ -1,5 +1,6 @@
 package com.example.idanr.tinderforjavaclass.BusinessLogic.Matches;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
 
 public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchViewHolder> {
     private ArrayList<Match> mMatches;
+    MatchListener mMatchListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -37,6 +39,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
         @Bind(R.id.userName)
         TextView mUserName;
 
+        @Bind(R.id.cardViewContainer)
+        CardView mCardView;
+
         public MatchViewHolder(View v) {
             super(v);
             ButterKnife.bind(this,v);
@@ -45,8 +50,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MatchesAdapter(ArrayList<Match> matches) {
+    public MatchesAdapter(ArrayList<Match> matches, MatchListener listener) {
         mMatches = matches;
+        mMatchListener = listener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -64,18 +70,29 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MatchViewHolder holder, int position) {
+    public void onBindViewHolder(final MatchViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
         Match match = mMatches.get(position);
-        holder.mUserImage.setImageUrl(match.getImageUrlAtIndex(0), NetworkManager.sharedInstance().getImageLoader());
+        holder.mUserImage.setImageUrl(match.getImageUrlAtIndex(match.getCurrentImagePage()), NetworkManager.sharedInstance().getImageLoader());
         holder.mUserName.setText(match.getName());
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMatchListener.matchClicked(position,holder.mUserImage);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mMatches.size();
+    }
+
+    public static interface MatchListener {
+        public void matchClicked(int position,View userImageView);
+
     }
 }

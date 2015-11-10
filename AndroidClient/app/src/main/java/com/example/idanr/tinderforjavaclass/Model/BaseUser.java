@@ -23,6 +23,7 @@ public class BaseUser {
     private String age;
     private int userID;
     private ArrayList<String> mImageUrls;
+    private int currentImagePage;
 
     public BaseUser(String name, String age, int userID, ArrayList<String> imageUrl){
         this.name = name;
@@ -52,6 +53,14 @@ public class BaseUser {
         if (imageUrls != null){
             this.mImageUrls = imageUrls;
         }
+    }
+
+    public int getCurrentImagePage() {
+        return currentImagePage;
+    }
+
+    public void setCurrentImagePage(int currentImagePage) {
+        this.currentImagePage = currentImagePage;
     }
 
     public int getUserID() {

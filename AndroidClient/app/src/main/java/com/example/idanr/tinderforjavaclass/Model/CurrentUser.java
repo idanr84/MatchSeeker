@@ -72,6 +72,10 @@ public class CurrentUser extends BaseUser {
         return potentialMatches.get(position);
     }
 
+    public Match getMatchAtIndex(int position){
+        return matches.get(position);
+    }
+
 
     public void remomoveTopPotentialMatches(int topToRemove){
         getPotentialMatches().subList(0, topToRemove).clear();

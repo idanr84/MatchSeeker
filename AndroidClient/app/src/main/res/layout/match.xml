@@ -4,7 +4,7 @@
     android:id="@+id/cardViewContainer"
     android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="170dp"
     card_view:cardCornerRadius="4dp">
 
         <LinearLayout
