@@ -51,14 +51,14 @@ public class SettingActivity extends Activity {
 
 //        segmentGender.setOnCheckedChangeListener(this);
 
-        container.setTransitionGroup(true);
+        //container.setTransitionGroup(true);
         Slide animation = new Slide(Gravity.LEFT);
         animation.setDuration(500);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.excludeTarget(android.R.id.navigationBarBackground, true);
         animation.excludeTarget(android.R.id.statusBarBackground, true);
 
-        container.setTransitionGroup(true);
+        //container.setTransitionGroup(true);
         Slide animation1 = new Slide(Gravity.LEFT);
         animation1.setDuration(500);
         animation1.setInterpolator(new DecelerateInterpolator());

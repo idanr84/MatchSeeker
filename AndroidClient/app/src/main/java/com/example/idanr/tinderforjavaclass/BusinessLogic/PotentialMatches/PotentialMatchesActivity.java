@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 
+import com.example.idanr.tinderforjavaclass.BusinessLogic.Matches.MatchesActivity;
 import com.example.idanr.tinderforjavaclass.BusinessLogic.Setting.SettingActivity;
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.CustomUI.SignoutAlert.SignoutAlert;
@@ -128,7 +129,13 @@ public class PotentialMatchesActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1){
+                if (position == 0){
+                    Intent settingIntent = new Intent(PotentialMatchesActivity.this, MatchesActivity.class);
+                    startActivity(settingIntent,
+                            ActivityOptions.makeSceneTransitionAnimation(PotentialMatchesActivity.this).toBundle());
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+                else if (position == 1){
                     Intent settingIntent = new Intent(PotentialMatchesActivity.this, SettingActivity.class);
                     startActivity(settingIntent,
                             ActivityOptions.makeSceneTransitionAnimation(PotentialMatchesActivity.this).toBundle());

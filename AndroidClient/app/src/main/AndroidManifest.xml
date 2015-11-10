@@ -53,6 +53,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".BusinessLogic.Matches.MatchesActivity"></activity>
+
     </application>
 
 </manifest>
