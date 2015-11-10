@@ -109,6 +109,8 @@ public class UserDetailsActivity extends Activity{
         slideTransition.excludeTarget(android.R.id.statusBarBackground, true);
         slideTransition .setDuration(800);
         getWindow().setReturnTransition(slideTransition);
+
+        getWindow().setSharedElementsUseOverlay(false);
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {

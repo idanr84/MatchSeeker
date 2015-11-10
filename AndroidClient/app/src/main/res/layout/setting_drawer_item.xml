@@ -7,8 +7,12 @@
     android:paddingBottom="20dp">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="2dp"
+        android:scaleType="centerInside"
+        android:id="@+id/icon"
         android:src="@drawable/com_facebook_button_icon"/>
 
     <TextView
@@ -16,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/settingName"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:textSize="20sp"/>
 
 </LinearLayout>
