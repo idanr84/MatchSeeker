@@ -39,6 +39,10 @@ public class NetworkClient {
         void userInfoFetched(CurrentUser currentUser);
     }
 
+    public interface UserSettingUpdateListener{
+        void settingUploadSucceded();
+    }
+
     public void login(String facebookToken,String facebookID, final LoginListener listener) {
 
         final String LOGIN_METHOD = "login";
@@ -127,7 +131,7 @@ public class NetworkClient {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG,"success syncing changes");
+                        Log.d(TAG, "success syncing changes");
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -145,6 +149,45 @@ public class NetworkClient {
 
         NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
 
+    }
+
+    public void updateUserSetting(int minAge,int maxAge,String gender,final UserSettingUpdateListener listener){
+        final String USER_INFO = "interested";
+
+        Uri builtUri = Uri.parse(BASE_URL + USER_INFO).buildUpon().build();
+
+        JSONObject body = null;
+        try {
+            body = new JSONObject();
+            body.put("min_age",minAge);
+            body.put("max_age",maxAge);
+            body.put("gender",gender.toLowerCase());
+        } catch (JSONException e){
+
+        }
+
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.POST, builtUri.toString(),body,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "success syncing setting configuration");
+                        listener.settingUploadSucceded();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG,"failure syncing setting changes");
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders ()throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put(AUTHORIZATION, ConfigurationManager.sharedInstance().getAccessToken());
+                return map;
+            }
+        };
+
+        NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
     }
 
 }

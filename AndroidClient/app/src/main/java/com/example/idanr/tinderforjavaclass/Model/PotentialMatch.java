@@ -27,16 +27,6 @@ public class PotentialMatch extends Match {
         this.state = state;
     }
 
-    public int getCurrentImagePage() {
-        return currentImagePage;
-    }
-
-    public void setCurrentImagePage(int currentImagePage) {
-        this.currentImagePage = currentImagePage;
-    }
-
-    private int currentImagePage;
-
     public PotentialMatch (String name, String age,int userID, ArrayList<String> imageUrls, String state){
         super(name,age,userID,imageUrls);
         this.state = State.valueOf(state.toUpperCase()) ;

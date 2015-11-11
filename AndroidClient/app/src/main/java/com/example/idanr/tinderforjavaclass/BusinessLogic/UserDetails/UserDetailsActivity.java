@@ -41,7 +41,7 @@ public class UserDetailsActivity extends Activity{
     ViewPager mUserImages;
 
     MyAdapter mAdapter;
-    PotentialMatch mPotentialMatch;
+    BaseUser mBaseUser;
 
     CurrentUser mCurrentUser;
 
@@ -54,11 +54,17 @@ public class UserDetailsActivity extends Activity{
 
         mCurrentUser = StorageManager.sharedInstance().getCurrentUser();
         final int index = getIntent().getExtras().getInt("user_id");
-        mPotentialMatch= mCurrentUser.getPotentialMatchAtIndex(index);
+        boolean isMatch = getIntent().getExtras().getBoolean("is_match");
+        if (isMatch){
+            mBaseUser = mCurrentUser.getMatchAtIndex(index);
+        } else {
+            mBaseUser = mCurrentUser.getPotentialMatchAtIndex(index);
+        }
 
-        mAdapter = new MyAdapter(getFragmentManager(),mPotentialMatch);
+
+        mAdapter = new MyAdapter(getFragmentManager(),mBaseUser);
         mUserImages.setAdapter(mAdapter);
-        mUserImages.setCurrentItem(mPotentialMatch.getCurrentImagePage());
+        mUserImages.setCurrentItem(mBaseUser.getCurrentImagePage());
 
         mUserImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -68,7 +74,7 @@ public class UserDetailsActivity extends Activity{
 
             @Override
             public void onPageSelected(int position) {
-                mPotentialMatch.setCurrentImagePage(position);
+                mBaseUser.setCurrentImagePage(position);
 //                StorageManager.sharedInstance().setPotentialMatch(mPotentialMatch,index);
             }
 
@@ -103,14 +109,16 @@ public class UserDetailsActivity extends Activity{
         slideTransition.excludeTarget(android.R.id.statusBarBackground, true);
         slideTransition .setDuration(800);
         getWindow().setReturnTransition(slideTransition);
+
+        getWindow().setSharedElementsUseOverlay(false);
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {
-        public MyAdapter(FragmentManager fm, PotentialMatch potentialMatch){
+        public MyAdapter(FragmentManager fm, BaseUser potentialMatch){
             super(fm);
             mPtentialMatch = potentialMatch;
         }
-        private PotentialMatch mPtentialMatch;
+        private BaseUser mPtentialMatch;
 
         @Override
         public int getCount() {

@@ -12,6 +12,14 @@ import java.util.ArrayList;
  */
 public class Match extends BaseUser {
 
+    public boolean getWasNotified() {
+        return mWasNotified;
+    }
+
+    public void setWasNotified(boolean wasNotified) {
+        this.mWasNotified = wasNotified;
+    }
+
     private boolean mWasNotified = true;
     private boolean mWasViewed = false;
 

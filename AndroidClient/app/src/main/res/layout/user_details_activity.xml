@@ -8,7 +8,7 @@
         android:layout_width="320dp"
         android:layout_height="320dp"
         android:id="@+id/userImages"
-        android:background="@android:color/holo_blue_bright"
+        android:background="@android:color/transparent"
         android:layout_gravity="center_horizontal"
         android:transitionName="user_image"
         android:scaleType="centerCrop">
