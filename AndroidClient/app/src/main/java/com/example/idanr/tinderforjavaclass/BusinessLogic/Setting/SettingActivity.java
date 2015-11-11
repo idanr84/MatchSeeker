@@ -5,14 +5,8 @@ import android.os.Bundle;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 
 import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
@@ -31,13 +25,10 @@ import butterknife.ButterKnife;
 public class SettingActivity extends Activity {
 
     @Bind(R.id.rangeBar)
-    RangeSeekBar rangeBar;
-
-    @Bind(R.id.container)
-    LinearLayout container;
+    RangeSeekBar mRangeBar;
 
     @Bind(R.id.segmentedGender)
-    info.hoang8f.android.segmented.SegmentedGroup segmentGender;
+    info.hoang8f.android.segmented.SegmentedGroup mSegmentGender;
 
 
     //ConfigurationManager.GENDER mRequestGender;
@@ -49,7 +40,7 @@ public class SettingActivity extends Activity {
         setContentView(R.layout.setting_activity);
         ButterKnife.bind(this);
 
-//        segmentGender.setOnCheckedChangeListener(this);
+//        mSegmentGender.setOnCheckedChangeListener(this);
 
         //container.setTransitionGroup(true);
         Slide animation = new Slide(Gravity.LEFT);
@@ -69,14 +60,14 @@ public class SettingActivity extends Activity {
         getWindow().setEnterTransition(animation);
         getWindow().setReturnTransition(animation1);
 
-        rangeBar.setRangeValues(18, 40);
-        rangeBar.setSelectedMinValue(ConfigurationManager.sharedInstance().getMinAge());
-        rangeBar.setSelectedMaxValue(ConfigurationManager.sharedInstance().getMaxAge());
-        rangeBar.setSelected(true);
+        mRangeBar.setRangeValues(18, 40);
+        mRangeBar.setSelectedMinValue(ConfigurationManager.sharedInstance().getMinAge());
+        mRangeBar.setSelectedMaxValue(ConfigurationManager.sharedInstance().getMaxAge());
+        mRangeBar.setSelected(true);
 
         ConfigurationManager.GENDER requesedtGender = ConfigurationManager.sharedInstance().getGender();
-//        segmentGender.check(requesedtGender .ordinal());
-        ((RadioButton)segmentGender.getChildAt(requesedtGender .ordinal())).setChecked(true);
+//        mSegmentGender.check(requesedtGender .ordinal());
+        ((RadioButton) mSegmentGender.getChildAt(requesedtGender .ordinal())).setChecked(true);
 
     }
 
@@ -84,13 +75,13 @@ public class SettingActivity extends Activity {
     protected void onStop() {
         super.onStop();
 
-        int radioButtonID = segmentGender.getCheckedRadioButtonId();
-        View radioButton = segmentGender.findViewById(radioButtonID);
-        int index = segmentGender.indexOfChild(radioButton);
+        int radioButtonID = mSegmentGender.getCheckedRadioButtonId();
+        View radioButton = mSegmentGender.findViewById(radioButtonID);
+        int index = mSegmentGender.indexOfChild(radioButton);
         final ConfigurationManager.GENDER gender = ConfigurationManager.GENDER.values()[index];
 
-        final int minAge = rangeBar.getSelectedMinValue().intValue();
-        final int maxAge = rangeBar.getSelectedMaxValue().intValue();
+        final int minAge = mRangeBar.getSelectedMinValue().intValue();
+        final int maxAge = mRangeBar.getSelectedMaxValue().intValue();
 
         final NetworkClient client = new NetworkClient();
         client.updateUserSetting(minAge ,maxAge ,gender.toString(),new NetworkClient.UserSettingUpdateListener() {

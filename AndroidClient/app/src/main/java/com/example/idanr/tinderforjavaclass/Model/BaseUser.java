@@ -2,8 +2,6 @@ package com.example.idanr.tinderforjavaclass.Model;
 
 import android.graphics.Bitmap;
 
-import com.facebook.internal.CollectionMapper;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,24 +9,22 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by idanr on 10/23/15.
  */
 public class BaseUser {
 
-    private String name;
-    private String age;
-    private int userID;
+    private String mName;
+    private String mAge;
+    private int mUserID;
     private ArrayList<String> mImageUrls;
-    private int currentImagePage;
+    private int mCurrentImagePage;
 
     public BaseUser(String name, String age, int userID, ArrayList<String> imageUrl){
-        this.name = name;
-        this.age = age;
-        this.userID = userID;
+        this.mName = name;
+        this.mAge = age;
+        this.mUserID = userID;
 
         if (imageUrl != null){
             this.mImageUrls = imageUrl;
@@ -36,9 +32,9 @@ public class BaseUser {
     }
 
     public BaseUser(BaseUser user){
-        this.name = user.name;
-        this.age = user.age;
-        this.userID = user.userID;
+        this.mName = user.mName;
+        this.mAge = user.mAge;
+        this.mUserID = user.mUserID;
 
         if (user.mImageUrls != null){
             this.mImageUrls = user.mImageUrls ;
@@ -46,9 +42,9 @@ public class BaseUser {
     }
 
     public BaseUser(String name, String age,int userID, ArrayList<String> imageUrls, ArrayList<Bitmap> images){
-        this.name = name;
-        this.age = age;
-        this.userID = userID;
+        this.mName = name;
+        this.mAge = age;
+        this.mUserID = userID;
 
         if (imageUrls != null){
             this.mImageUrls = imageUrls;
@@ -56,35 +52,35 @@ public class BaseUser {
     }
 
     public int getCurrentImagePage() {
-        return currentImagePage;
+        return mCurrentImagePage;
     }
 
     public void setCurrentImagePage(int currentImagePage) {
-        this.currentImagePage = currentImagePage;
+        this.mCurrentImagePage = currentImagePage;
     }
 
     public int getUserID() {
-        return userID;
+        return mUserID;
     }
 
     public void setUserID(int userID) {
-        this.userID = userID;
+        this.mUserID = userID;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.mName = name;
     }
 
     public String getAge() {
-        return age;
+        return mAge;
     }
 
     public void setAge(String age) {
-        this.age = age;
+        this.mAge = age;
     }
 
     public String getImageUrlAtIndex(int pos) {
@@ -103,7 +99,7 @@ public class BaseUser {
 
         try {
             JSONObject json = new JSONObject();
-            json.put("user_id",userID);
+            json.put("user_id", mUserID);
             return json.toString();
 
         } catch (JSONException e){

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class PotentialMatchesFragment extends Fragment implements PropertyChange
     RelativeLayout mContainer;
 
     @Bind(R.id.noMatchesView)
-    TextView mNoMatchesView;
+    LinearLayout mNoMatchesView;
 
     PotentialMatchesDataAdapter mAdapter;
 

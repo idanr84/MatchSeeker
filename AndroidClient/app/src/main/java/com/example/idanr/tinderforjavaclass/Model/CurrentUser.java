@@ -1,9 +1,5 @@
 package com.example.idanr.tinderforjavaclass.Model;
 
-import android.graphics.Bitmap;
-import android.support.v4.app.NavUtils;
-
-import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
 
 import org.json.JSONArray;
@@ -17,10 +13,10 @@ import java.util.ArrayList;
  */
 public class CurrentUser extends BaseUser {
 
-    ArrayList<Integer> likes = new ArrayList<>();
-    ArrayList<Integer> dislikes = new ArrayList<>();
-    ArrayList<PotentialMatch> potentialMatches = new ArrayList<>();
-    ArrayList<Match> matches = new ArrayList<>();
+    ArrayList<Integer> mLikes = new ArrayList<>();
+    ArrayList<Integer> mDislikes = new ArrayList<>();
+    ArrayList<PotentialMatch> mPotentialMatches = new ArrayList<>();
+    ArrayList<Match> mMatches = new ArrayList<>();
 
     public CurrentUser(String name, String age,int userID, ArrayList<String> imageUrls){
         super(name,age,userID,imageUrls);
@@ -28,52 +24,36 @@ public class CurrentUser extends BaseUser {
 
     public CurrentUser(BaseUser user,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){
         super(user);
-        this.potentialMatches = potentialMatches;
-        this.matches = matches;
-    }
-
-    public ArrayList<Integer> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ArrayList<Integer> likes) {
-        this.likes = likes;
-    }
-
-    public ArrayList<Integer> getDislikes() {
-        return dislikes;
-    }
-
-    public void setDislikes(ArrayList<Integer> dislikes) {
-        this.dislikes = dislikes;
+        this.mPotentialMatches = potentialMatches;
+        this.mMatches = matches;
     }
 
     public void addDislikedUserID(int userID){
-        this.dislikes.add(userID);
+        this.mDislikes.add(userID);
     }
 
     public void addLikedUserID(int userID){
-        this.likes.add(userID);
+        this.mLikes.add(userID);
     }
 
     public void addMatch(Match match){
-        matches.add(match);
+        mMatches.add(match);
     }
 
     public ArrayList<PotentialMatch> getPotentialMatches() {
-        return potentialMatches;
+        return mPotentialMatches;
     }
 
     public void setPotentialMatches(ArrayList<PotentialMatch> potentialMatches) {
-        this.potentialMatches = potentialMatches;
+        this.mPotentialMatches = potentialMatches;
     }
 
     public PotentialMatch getPotentialMatchAtIndex(int position){
-        return potentialMatches.get(position);
+        return mPotentialMatches.get(position);
     }
 
     public Match getMatchAtIndex(int position){
-        return matches.get(position);
+        return mMatches.get(position);
     }
 
 
@@ -82,29 +62,29 @@ public class CurrentUser extends BaseUser {
     }
 
     public ArrayList<Match> getMatches() {
-        return matches;
+        return mMatches;
     }
 
     public void setMatches(ArrayList<Match> matches) {
-        this.matches = matches;
+        this.mMatches = matches;
     }
 
     public String toJson(){
         try {
             JSONObject json = new JSONObject();
-            json.put("liked_users", new JSONArray(likes));
-            json.put("disliked_users", new JSONArray(dislikes));
+            json.put("liked_users", new JSONArray(mLikes));
+            json.put("disliked_users", new JSONArray(mDislikes));
             //json.put("user",super.toJson());
 
             JSONArray matchesArr = new JSONArray();
-            for (Match match : matches){
+            for (Match match : mMatches){
                 matchesArr.put(new JSONObject(match.toJson()));
             }
             json.put("matched_users",matchesArr);
 
 
 //            JSONArray potentialArr = new JSONArray();
-//            for (PotentialMatch potentialMatch : potentialMatches){
+//            for (PotentialMatch potentialMatch : mPotentialMatches){
 //                potentialArr.put(potentialMatch.toJson());
 //            }
 //            json.put("potential_matches",potentialArr);
@@ -165,7 +145,7 @@ public class CurrentUser extends BaseUser {
 
     public int getNewUnnotifiedMatchesCount(){
         int counter=0;
-        for (Match match : matches ){
+        for (Match match : mMatches){
             if (!match.getWasNotified()){
                 counter++;
             }
@@ -174,7 +154,7 @@ public class CurrentUser extends BaseUser {
     }
 
     public void markAllAsNotified(){
-        for (Match match : matches ){
+        for (Match match : mMatches){
             if (!match.getWasNotified()){
                 match.setWasNotified(true);
             }

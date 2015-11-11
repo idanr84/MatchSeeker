@@ -13,19 +13,31 @@
         android:clipToPadding="false">
     </com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack>
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:text="No More Matches Available"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:orientation="vertical"
         android:layout_alignTop="@id/cardLayout"
         android:layout_alignBottom="@id/cardLayout"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:visibility="gone"
-        android:gravity="center"
-        android:background="@android:color/holo_blue_light"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/noMatchesView"
-        />
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="No More Matches Available"
+            android:textSize="20sp"
+            android:background="?colorPrimary"
+            />
+
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_width="326dp"
+            android:layout_height="374dp"
+            android:src="@drawable/emoticon_sad"/>
+    </LinearLayout>
 
     <ImageButton
         android:layout_width="130dp"

@@ -1,7 +1,5 @@
 package com.example.idanr.tinderforjavaclass.Model;
 
-import android.graphics.Bitmap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,30 +15,30 @@ public class PotentialMatch extends Match {
         NONE
     }
 
-    State state;
+    State mState;
 
     public State getState() {
-        return state;
+        return mState;
     }
 
     public void setState(State state) {
-        this.state = state;
+        this.mState = state;
     }
 
     public PotentialMatch (String name, String age,int userID, ArrayList<String> imageUrls, String state){
         super(name,age,userID,imageUrls);
-        this.state = State.valueOf(state.toUpperCase()) ;
+        this.mState = State.valueOf(state.toUpperCase()) ;
     }
 
     public PotentialMatch (BaseUser baseUser,State state){
         super(baseUser);
-        this.state = state;
+        this.mState = state;
     }
 
     public String toJson(){
         try {
             JSONObject json = new JSONObject(super.toJson());
-            json.put("like_state",state.toString().toLowerCase());
+            json.put("like_state", mState.toString().toLowerCase());
             return json.toString();
         }
         catch (JSONException e){
