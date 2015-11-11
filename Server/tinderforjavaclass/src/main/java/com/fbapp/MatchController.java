@@ -48,7 +48,7 @@ public class MatchController extends HttpServlet {
                 ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
                 List<UserMatch> users = dbHelper.getMatchedUsers(user.id);
-                for (int a=0;a<users.size();a++){
+                for (int a=0; a<users.size(); a++){
                     UserMatch userMatch = users.get(a);
                     userMatch.user.images = dbHelper.getUserImages(userMatch.user.id);
                     users.set(a,userMatch);
