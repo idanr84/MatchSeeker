@@ -39,8 +39,7 @@ public class LoginController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, IOException {
         PrintWriter wr = servletResponse.getWriter();
         String fbAccessToken = servletRequest.getParameter("access_token");
         String fbUserId = servletRequest.getParameter("facebook_user_id");
@@ -122,16 +121,14 @@ public class LoginController extends HttpServlet {
             }
 
             List<Album> albums = fbHelper.getAlbums();
-            for (int a=0; a<albums.size(); a++){
-                Album album = albums.get(a);
+            for (Album album : albums) {
                 //wr.print(album.getName()+"<br />");
                 if (album.getType().contains("profile")){
                     user.images = new Vector<UserImage>();
                     //wr.print("Yes profile<br />");
                     List<Photo> photos = fbHelper.getPictures(album.getId());
                     int photoCount = 0;
-                    for (int b=0; b<photos.size(); b++){
-                        Photo photo = photos.get(b);
+                    for (Photo photo : photos) {
                         UserImage userImage = new UserImage();
                         userImage.picture_url = photo.getPicture();
                         user.images.add(userImage);

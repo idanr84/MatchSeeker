@@ -6,6 +6,9 @@
 
 package com.fbapp.model;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author Yaara Shoham
@@ -21,8 +24,8 @@ public class User {
     public String profile_id;
     public String profile_url;
     public String profile_pic_url;
-    public java.util.Date birthday_as_date;
-    public java.util.List<UserImage> images;
+    public Date birthday_as_date;
+    public List<UserImage> images;
     public String gender;
     public String gender_interested;
     public Integer min_age_interested=null;
