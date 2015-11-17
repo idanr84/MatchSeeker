@@ -87,13 +87,18 @@ public class SettingActivity extends Activity {
         client.updateUserSetting(minAge ,maxAge ,gender.toString(),new NetworkClient.UserSettingUpdateListener() {
             @Override
             public void settingUploadSucceded() {
-                client.getUserInfo(new NetworkClient.UserInfoListener() {
+                client.updateServer(StorageManager.sharedInstance().getCurrentUser(), new NetworkClient.ServerUpdateListener() {
                     @Override
-                    public void userInfoFetched(CurrentUser currentUser) {
-                        ConfigurationManager.sharedInstance().setMinAge(minAge);
-                        ConfigurationManager.sharedInstance().setMaxAge(maxAge);
-                        ConfigurationManager.sharedInstance().setGender(gender);
-                        StorageManager.sharedInstance().setCurrentUser(currentUser);
+                    public void serverUpdatesSucceeded() {
+                        client.getUserInfo(new NetworkClient.UserInfoListener() {
+                            @Override
+                            public void userInfoFetched(CurrentUser currentUser) {
+                                ConfigurationManager.sharedInstance().setMinAge(minAge);
+                                ConfigurationManager.sharedInstance().setMaxAge(maxAge);
+                                ConfigurationManager.sharedInstance().setGender(gender);
+                                StorageManager.sharedInstance().setCurrentUser(currentUser);
+                            }
+                        });
                     }
                 });
             }

@@ -75,7 +75,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
         if(i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN){
             Log.d(TAG, "app went to background");
 
-            client.updateServer(StorageManager.sharedInstance().getCurrentUser());
+            client.updateServer(StorageManager.sharedInstance().getCurrentUser(),null);
             isInBackground = true;
         }
     }

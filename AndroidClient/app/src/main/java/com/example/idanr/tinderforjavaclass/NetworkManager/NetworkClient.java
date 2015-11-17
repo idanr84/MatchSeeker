@@ -43,6 +43,11 @@ public class NetworkClient {
         void settingUploadSucceded();
     }
 
+    public interface ServerUpdateListener{
+        void serverUpdatesSucceeded();
+    }
+
+
     public void login(String facebookToken,String facebookID, final LoginListener listener) {
 
         final String LOGIN_METHOD = "login";
@@ -65,9 +70,13 @@ public class NetworkClient {
                             String userID = data.getString("id");
                             ConfigurationManager.sharedInstance().setUserID(userID);
                             ConfigurationManager.sharedInstance().setAccessToken(accessToken);
-                            listener.loginSuccessed(accessToken,userID);
+                            if (listener != null){
+                                listener.loginSuccessed(accessToken,userID);
+                            }
                         } catch (JSONException e) {
-                            listener.loginFailed(e.getLocalizedMessage());
+                            if (listener != null){
+                                listener.loginFailed(e.getLocalizedMessage());
+                            }
                         }
 
 
@@ -75,7 +84,9 @@ public class NetworkClient {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                listener.loginFailed(error.getLocalizedMessage());
+                if (listener != null){
+                    listener.loginFailed(error.getLocalizedMessage());
+                }
             }
         });
 
@@ -97,7 +108,10 @@ public class NetworkClient {
                     @Override
                     public void onResponse(JSONObject response) {
                         CurrentUser currentUser =  CurrentUser.fromJson(response);
-                        listener.userInfoFetched(currentUser);
+
+                        if (listener != null){
+                            listener.userInfoFetched(currentUser);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -115,7 +129,7 @@ public class NetworkClient {
         NetworkManager.sharedInstance().addToRequestQueue(jsonRequest);
     }
 
-    public void updateServer(CurrentUser currentUser){
+    public void updateServer(CurrentUser currentUser, final ServerUpdateListener listener){
         final String USER_INFO = "submit";
 
         Uri builtUri = Uri.parse(BASE_URL + USER_INFO).buildUpon().build();
@@ -132,6 +146,9 @@ public class NetworkClient {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "success syncing changes");
+                        if (listener != null){
+                            listener.serverUpdatesSucceeded();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -171,7 +188,9 @@ public class NetworkClient {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "success syncing setting configuration");
-                        listener.settingUploadSucceded();
+                        if (listener != null){
+                            listener.settingUploadSucceded();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
