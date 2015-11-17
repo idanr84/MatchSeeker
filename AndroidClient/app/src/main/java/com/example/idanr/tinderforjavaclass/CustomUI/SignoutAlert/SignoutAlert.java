@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
+import com.example.idanr.tinderforjavaclass.Configuration.ConfigurationManager;
+import com.example.idanr.tinderforjavaclass.Facebook.FacebookHelper;
 import com.facebook.AccessToken;
 
 /**
@@ -25,7 +27,8 @@ public class SignoutAlert extends DialogFragment{
                         Intent startLogin = new Intent(getActivity(), LoginActivity.class);
                         getActivity().startActivity(startLogin);
                         getActivity().finish();
-                        AccessToken.setCurrentAccessToken(null);
+                        FacebookHelper.setAccessToken(null);
+                        ConfigurationManager.sharedInstance().signOut();
                     }
                 })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {

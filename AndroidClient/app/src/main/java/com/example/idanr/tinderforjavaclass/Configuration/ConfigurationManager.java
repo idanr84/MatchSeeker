@@ -133,4 +133,8 @@ public class ConfigurationManager {
     public void setGender(GENDER gender){
         mContext.getSharedPreferences(PREFERENCES_KEY,Context.MODE_PRIVATE).edit().putString(GENDER_SETTING,gender.toString()).apply();
     }
+
+    public void signOut(){
+        mContext.getSharedPreferences(PREFERENCES_KEY, Context.MODE_PRIVATE).edit().clear().commit();
+    }
 }

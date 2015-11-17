@@ -18,8 +18,8 @@ public class CurrentUser extends BaseUser {
     ArrayList<PotentialMatch> mPotentialMatches = new ArrayList<>();
     ArrayList<Match> mMatches = new ArrayList<>();
 
-    public CurrentUser(String name, String age,int userID, ArrayList<String> imageUrls){
-        super(name,age,userID,imageUrls);
+    public CurrentUser(String name, String age,int userID,String location, ArrayList<String> imageUrls){
+        super(name,age,userID,location,imageUrls);
     }
 
     public CurrentUser(BaseUser user,ArrayList<PotentialMatch> potentialMatches,ArrayList<Match> matches){

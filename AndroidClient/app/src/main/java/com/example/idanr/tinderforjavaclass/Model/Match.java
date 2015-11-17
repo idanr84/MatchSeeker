@@ -23,9 +23,10 @@ public class Match extends BaseUser {
     private boolean mWasNotified = true;
     private boolean mWasViewed = false;
 
-    public Match (String name, String age,int userID, ArrayList<String> imageUrls){
-        super(name,age,userID,imageUrls);
+    public Match (String name, String age,int userID,String location, ArrayList<String> imageUrls){
+        super(name,age,userID,location,imageUrls);
     }
+
 
     public Match (BaseUser baseUser){
         super(baseUser);
@@ -50,8 +51,8 @@ public class Match extends BaseUser {
 
     public static Match fromJson(JSONObject object){
         try {
-            boolean wasNotified = object.getBoolean("match_announced");
-            boolean wasViewed = object.getBoolean("match_viewed");
+            boolean wasNotified = object.optBoolean("match_announced");
+            boolean wasViewed = object.optBoolean("match_viewed");
             return  new Match(BaseUser.fromJson(object.getJSONObject("user")),wasNotified,wasViewed);
 
         } catch (JSONException e){

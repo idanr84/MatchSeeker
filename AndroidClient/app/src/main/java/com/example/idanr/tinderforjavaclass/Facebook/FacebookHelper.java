@@ -54,4 +54,12 @@ public class FacebookHelper {
         }
     }
 
+    public static AccessToken getAccessToken(){
+        return AccessToken.getCurrentAccessToken();
+    }
+
+    public static void setAccessToken(AccessToken token){
+        AccessToken.setCurrentAccessToken(token);
+    }
+
 }

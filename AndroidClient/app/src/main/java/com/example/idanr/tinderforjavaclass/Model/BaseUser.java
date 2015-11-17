@@ -17,14 +17,16 @@ public class BaseUser {
 
     private String mName;
     private String mAge;
+    private String mLocation;
     private int mUserID;
     private ArrayList<String> mImageUrls;
     private int mCurrentImagePage;
 
-    public BaseUser(String name, String age, int userID, ArrayList<String> imageUrl){
+    public BaseUser(String name, String age, int userID,String location,ArrayList<String> imageUrl){
         this.mName = name;
         this.mAge = age;
         this.mUserID = userID;
+        this.mLocation = location;
 
         if (imageUrl != null){
             this.mImageUrls = imageUrl;
@@ -35,6 +37,7 @@ public class BaseUser {
         this.mName = user.mName;
         this.mAge = user.mAge;
         this.mUserID = user.mUserID;
+        this.mLocation = user.mLocation;
 
         if (user.mImageUrls != null){
             this.mImageUrls = user.mImageUrls ;
@@ -50,6 +53,15 @@ public class BaseUser {
             this.mImageUrls = imageUrls;
         }
     }
+
+    public String getLocation() {
+        return mLocation;
+    }
+
+    public void setLocation(String location) {
+        this.mLocation = location;
+    }
+
 
     public int getCurrentImagePage() {
         return mCurrentImagePage;
@@ -112,7 +124,7 @@ public class BaseUser {
             int userID = data.getInt("id");
             String name = data.getString("name");
             String age = data.getString("age");
-            //String location = data.getString("location");
+            String location = data.optString("location","N/A");
             ArrayList<String> imageUrls = new ArrayList<>();
 
 
@@ -133,7 +145,7 @@ public class BaseUser {
                 }
             }
 
-            return new BaseUser(name,age,userID,imageUrls);
+            return new BaseUser(name,age,userID,location,imageUrls);
 
         }
         catch (JSONException e){

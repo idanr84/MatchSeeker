@@ -5,18 +5,19 @@
 
     <ImageView
         android:layout_width='match_parent'
-        android:layout_height="400dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/tinder_logo" />
+        android:src="@drawable/couples_96"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
         />
 
 </LinearLayout>

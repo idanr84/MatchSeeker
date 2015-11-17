@@ -25,11 +25,6 @@ public class PotentialMatch extends Match {
         this.mState = state;
     }
 
-    public PotentialMatch (String name, String age,int userID, ArrayList<String> imageUrls, String state){
-        super(name,age,userID,imageUrls);
-        this.mState = State.valueOf(state.toUpperCase()) ;
-    }
-
     public PotentialMatch (BaseUser baseUser,State state){
         super(baseUser);
         this.mState = state;

@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 
@@ -17,12 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.idanr.tinderforjavaclass.Model.BaseUser;
 import com.example.idanr.tinderforjavaclass.Model.CurrentUser;
-import com.example.idanr.tinderforjavaclass.Model.PotentialMatch;
 import com.example.idanr.tinderforjavaclass.NetworkManager.NetworkManager;
 import com.example.idanr.tinderforjavaclass.R;
 import com.example.idanr.tinderforjavaclass.StorageManager.StorageManager;
@@ -39,6 +37,15 @@ public class UserDetailsActivity extends Activity{
 
     @Bind(R.id.userImages)
     ViewPager mUserImages;
+
+    @Bind(R.id.userName)
+    TextView mUserName;
+
+    @Bind(R.id.userAge)
+    TextView mUserAge;
+
+    @Bind(R.id.userLocation)
+    TextView mUserLocation;
 
     MyAdapter mAdapter;
     BaseUser mBaseUser;
@@ -62,7 +69,12 @@ public class UserDetailsActivity extends Activity{
         }
 
 
-        mAdapter = new MyAdapter(getFragmentManager(),mBaseUser);
+        mUserName.setText(mBaseUser.getName());
+        mUserAge.setText(mBaseUser.getAge());
+        mUserLocation.setText(mBaseUser.getLocation());
+
+
+        mAdapter = new MyAdapter(getFragmentManager(), mBaseUser);
         mUserImages.setAdapter(mAdapter);
         mUserImages.setCurrentItem(mBaseUser.getCurrentImagePage());
 
@@ -75,7 +87,7 @@ public class UserDetailsActivity extends Activity{
             @Override
             public void onPageSelected(int position) {
                 mBaseUser.setCurrentImagePage(position);
-//                StorageManager.sharedInstance().setPotentialMatch(mPotentialMatch,index);
+//                StorageManager.sharedInstance().setPotentialMatch(mBaseUser,index);
             }
 
             @Override

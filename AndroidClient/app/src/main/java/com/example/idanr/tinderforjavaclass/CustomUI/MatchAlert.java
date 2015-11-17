@@ -6,9 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 
-import com.example.idanr.tinderforjavaclass.BusinessLogic.Login.LoginActivity;
 import com.example.idanr.tinderforjavaclass.R;
-import com.facebook.AccessToken;
+
 
 /**
  * Created by idanr on 11/6/15.
