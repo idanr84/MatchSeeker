@@ -21,7 +21,7 @@ public class SignoutAlert extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Are you sure you want to sign out")
+        builder.setMessage("Are you sure you want to sign out?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent startLogin = new Intent(getActivity(), LoginActivity.class);
