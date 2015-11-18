@@ -9,6 +9,7 @@ package com.fbapp.model;
 import java.util.List;
 
 /**
+ * MeModel is the data model to hold the the response details for <code>/me</code> servlet
  *
  * @author Yaara Shoham
  */

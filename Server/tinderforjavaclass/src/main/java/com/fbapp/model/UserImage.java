@@ -7,6 +7,7 @@
 package com.fbapp.model;
 
 /**
+ * UserImage data model holds the data for each image fetched from facebook for each user
  *
  * @author Yaara Shoham
  */

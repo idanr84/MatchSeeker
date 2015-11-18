@@ -34,7 +34,7 @@ public class ServletHelper {
     throws IOException{
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        //out.write(DbHelper.USERNAME+","+DbHelper.PASSWORD+","+DbHelper.URL);
+        //out.write(SqlQueries.USERNAME+","+SqlQueries.PASSWORD+","+SqlQueries.URL);
         out.write(result.toJson());
         out.close();
     }

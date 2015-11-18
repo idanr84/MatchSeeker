@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 public class PotentialMatchController extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for HTTP <code>GET</code>
+     * method.
      *
      * @param servletRequest servletRequest for potential matches
-     * @param servletResponse servletResponse
+     * @param servletResponse servletResponse with a list of potential matches
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
@@ -40,29 +40,31 @@ public class PotentialMatchController extends HttpServlet {
             ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper dbHelper = new DbHelper();
+        SqlQueries sqlQueries = null;
+        try {
+            sqlQueries = new SqlQueries();
+        } catch (Exception ex) {
+            ServletHelper.writeResponse(new ApiResult("500", ex.getMessage(), null), servletResponse);
+        }
         try{
-            dbHelper.open();
-            User user = dbHelper.getUserByToken(accessToken);
+            sqlQueries.open();
+            User user = sqlQueries.getUserByToken(accessToken);
             if (user == null){
-                dbHelper.close();
-//                ApiResult apiResult = new ApiResult("403","Invalid access token",null);
+                sqlQueries.close();
                 ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                List<PotentialMatchUser> users = dbHelper.getPotentialMatchingUsers(user.id);
+                List<PotentialMatchUser> users = sqlQueries.getPotentialMatchingUsers(user.id);
                 for (int a= 0; a<users.size(); a++){
                     PotentialMatchUser potentialMatchUser = users.get(a);
-                    potentialMatchUser.images = dbHelper.getUserImages(potentialMatchUser.id);
+                    potentialMatchUser.images = sqlQueries.getUserImages(potentialMatchUser.id);
                     users.set(a,potentialMatchUser);
                 }
-                dbHelper.close();
-//                ApiResult apiResult = new ApiResult("200",null,users);
+                sqlQueries.close();
                 ServletHelper.writeResponse(new ApiResult("200",null,users), servletResponse);
                 users.clear();
             }
         }catch(Exception ex){
-            dbHelper.close();
-//            ApiResult apiResult = new ApiResult("400",ex.getMessage(),null);
+            sqlQueries.close();
             ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }

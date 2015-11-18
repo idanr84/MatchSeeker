@@ -7,6 +7,7 @@
 package com.fbapp.model;
 
 /**
+ * UserMatch is the data model to hold the user matched by current user
  *
  * @author Yaara Shoham
  */
