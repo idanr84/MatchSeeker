@@ -7,7 +7,6 @@
 package com.fbapp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +22,16 @@ import com.fbapp.model.UserMatch;
  */
 @WebServlet(name = "SubmitController", urlPatterns = {"/submit"})
 public class SubmitController extends HttpServlet {
-    
+
+    /**
+     * Processes requests for HTTP <code>POST</code>
+     * method.
+     *
+     * @param servletRequest servletRequest for a list of liked users, disliked users &amp; matches users by current user
+     * @param servletResponse servletResponse 200 if
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
             throws ServletException, IOException {
         String accessToken = servletRequest.getHeader("Authorization");
@@ -32,56 +40,61 @@ public class SubmitController extends HttpServlet {
             ServletHelper.writeResponse(apiResult,servletResponse);
             return;
         }
-        DbHelper dbHelper = new DbHelper();
+        SqlQueries sqlQueries = null;
+        try {
+            sqlQueries = new SqlQueries();
+        } catch (Exception ex) {
+            ServletHelper.writeResponse(new ApiResult("500", ex.getMessage(), null), servletResponse);
+        }
         try{
             String jsonBody = ServletHelper.getBodyAsString(servletRequest);
             //servletResponse.getWriter().write(jsonBody);
             Gson gson = new Gson();
             SubmitModel submitModel = gson.fromJson(jsonBody,SubmitModel.class);
-            dbHelper.open();
-            User user = dbHelper.getUserByToken(accessToken);
+            sqlQueries.open();
+            User user = sqlQueries.getUserByToken(accessToken);
 
             if (user == null){
-                dbHelper.close();
+                sqlQueries.close();
                 ApiResult apiResult = new ApiResult("403","Invalid access token",null);
                 ServletHelper.writeResponse(apiResult,servletResponse);
             }else{
                 if (submitModel.liked_users != null){
                     for (int a = 0; a < submitModel.liked_users.size(); a++){
-                        dbHelper.removeLike(user.id, submitModel.liked_users.get(a));
-                        dbHelper.saveLike(user.id, submitModel.liked_users.get(a));
+                        sqlQueries.removeLike(user.id, submitModel.liked_users.get(a));
+                        sqlQueries.saveLike(user.id, submitModel.liked_users.get(a));
                     }
                 }
                 if (submitModel.disliked_users != null){
                     for (int a = 0; a < submitModel.disliked_users.size(); a++){
-                        dbHelper.removeDislike(user.id, submitModel.disliked_users.get(a));
-                        dbHelper.saveDislike(user.id, submitModel.disliked_users.get(a));
+                        sqlQueries.removeDislike(user.id, submitModel.disliked_users.get(a));
+                        sqlQueries.saveDislike(user.id, submitModel.disliked_users.get(a));
                     }
                 }
                 if (submitModel.matched_users != null){
                     UserMatch userMatch = new UserMatch();
                     userMatch.user = new User();
                     for (int a = 0; a < submitModel.matched_users.size(); a++){
-                        dbHelper.removeMatch(user.id, submitModel.matched_users.get(a).user_id);
+                        sqlQueries.removeMatch(user.id, submitModel.matched_users.get(a).user_id);
                         userMatch.user.id = submitModel.matched_users.get(a).user_id;
                         userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
                         userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
-                        dbHelper.saveMatch(user.id, userMatch);
+                        sqlQueries.saveMatch(user.id, userMatch);
                         
                         //now save another
-                        dbHelper.removeMatch(submitModel.matched_users.get(a).user_id, user.id);
+                        sqlQueries.removeMatch(submitModel.matched_users.get(a).user_id, user.id);
                         userMatch.user.id = user.id;
                         userMatch.match_viewed = submitModel.matched_users.get(a).match_viewed;
                         userMatch.match_announced = submitModel.matched_users.get(a).match_announced;
-                        dbHelper.saveMatch(submitModel.matched_users.get(a).user_id, userMatch);
+                        sqlQueries.saveMatch(submitModel.matched_users.get(a).user_id, userMatch);
                     }
                 }
                 ApiResult apiResult = new ApiResult("200",null,null);
                 ServletHelper.writeResponse(apiResult, servletResponse);
             }
-            dbHelper.close();
+            sqlQueries.close();
         }catch(Exception ex){
-            dbHelper.close();
+            sqlQueries.close();
             ApiResult result=new ApiResult("400",ex.getMessage(),null);
             ServletHelper.writeResponse(result,servletResponse);
         }
@@ -92,7 +105,7 @@ public class SubmitController extends HttpServlet {
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
-     * @param response servlet response
+     * @param response servlet response this controller does not support HTTP GET method
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */

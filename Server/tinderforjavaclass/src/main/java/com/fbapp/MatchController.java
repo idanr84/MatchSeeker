@@ -39,26 +39,30 @@ public class MatchController extends HttpServlet {
             ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper dbHelper = new DbHelper();
+        SqlQueries sqlQueries = null;
+        try {
+            sqlQueries = new SqlQueries();
+        } catch (Exception ex) {
+            ServletHelper.writeResponse(new ApiResult("400", ex.getMessage(), null), servletResponse);        }
         try{
-            dbHelper.open();
-            User user = dbHelper.getUserByToken(accessToken);
+            sqlQueries.open();
+            User user = sqlQueries.getUserByToken(accessToken);
             if (user == null){
-                dbHelper.close();
+                sqlQueries.close();
                 ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
-                List<UserMatch> users = dbHelper.getMatchedUsers(user.id);
+                List<UserMatch> users = sqlQueries.getMatchedUsers(user.id);
                 for (int a=0; a<users.size(); a++){
                     UserMatch userMatch = users.get(a);
-                    userMatch.user.images = dbHelper.getUserImages(userMatch.user.id);
+                    userMatch.user.images = sqlQueries.getUserImages(userMatch.user.id);
                     users.set(a,userMatch);
                 }
-                dbHelper.close();
+                sqlQueries.close();
                 ServletHelper.writeResponse(new ApiResult("200",null,users), servletResponse);
                 users.clear();
             }
         }catch(Exception ex){
-            dbHelper.close();
+            sqlQueries.close();
             ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }

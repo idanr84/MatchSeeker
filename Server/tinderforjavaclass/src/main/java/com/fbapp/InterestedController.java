@@ -7,7 +7,6 @@
 package com.fbapp;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.fbapp.model.User;
 import com.google.gson.*;
 import com.fbapp.model.InterestedModel;
-import com.fbapp.model.UserMatch;
+
 /**
  *
  * @author Yaara Shoham
@@ -31,27 +30,32 @@ public class InterestedController extends HttpServlet {
             ServletHelper.writeResponse(new ApiResult("400","Authorization header missing",null),servletResponse);
             return;
         }
-        DbHelper dbHelper = new DbHelper();
+        SqlQueries sqlQueries = null;
+        try {
+            sqlQueries = new SqlQueries();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try{
             String jsonBody = ServletHelper.getBodyAsString(servletRequest);
             //servletResponse.getWriter().write(jsonBody);
             Gson gson = new Gson();
             InterestedModel interestedModel = gson.fromJson(jsonBody,InterestedModel.class);
-            dbHelper.open();
-            User user = dbHelper.getUserByToken(accessToken);
+            sqlQueries.open();
+            User user = sqlQueries.getUserByToken(accessToken);
             if (user == null){
-                dbHelper.close();
+                sqlQueries.close();
                 ServletHelper.writeResponse(new ApiResult("403","Invalid access token",null),servletResponse);
             }else{
                 user.gender_interested = interestedModel.gender;
                 user.max_age_interested = interestedModel.max_age;
                 user.min_age_interested = interestedModel.min_age;
-                dbHelper.updateInterested(user);
+                sqlQueries.updateInterested(user);
                 ServletHelper.writeResponse(new ApiResult("200",null,null), servletResponse);
             }
-            dbHelper.close();
+            sqlQueries.close();
         }catch(Exception ex){
-            dbHelper.close();
+            sqlQueries.close();
             ServletHelper.writeResponse(new ApiResult("400",ex.getMessage(),null),servletResponse);
         }
     }

@@ -7,6 +7,8 @@
 package com.fbapp.model;
 
 /**
+ * SubmitMatchUser is the data model to hold a user choosing matched users from the PotentialMatchUser list
+ * who liked a user previously
  *
  * @author Yaara Shoham
  */

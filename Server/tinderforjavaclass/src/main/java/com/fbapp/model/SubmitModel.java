@@ -9,6 +9,8 @@ package com.fbapp.model;
 import java.util.List;
 
 /**
+ * SubmitModel is the data model to hold the list of users whom were liked / disliked / matched by the
+ * current user
  *
  * @author Yaara Shoham
  */

@@ -7,6 +7,10 @@
 package com.fbapp.model;
 
 /**
+ * PotentialMatchUser is the data model to hold the list of users who belong in the interest gender &amp; age range
+ * of the current user.
+ * <code>count</code> resembles the number of page categories in common.
+ * <code>like_state</code> if PotentialMatchUser liked current user or not.
  *
  * @author Yaara Shoham
  */

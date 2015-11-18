@@ -9,6 +9,8 @@ package com.fbapp;
 import com.google.gson.Gson;
 
 /**
+ * Each servlet responds with a JSON response
+ * APIResult is the object to be instantiated for each response
  *
  * @author Yaara Shoham
  */

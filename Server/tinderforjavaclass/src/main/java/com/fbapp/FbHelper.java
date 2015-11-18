@@ -7,18 +7,22 @@
 
 package com.fbapp;
 
+import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
-import com.restfb.types.User;
-import com.restfb.types.Page;
 import com.restfb.types.Album;
+import com.restfb.types.Page;
 import com.restfb.types.Photo;
-import com.restfb.Connection;
+import com.restfb.types.User;
+
 import java.util.List;
 import java.util.Vector;
 /**
+ * FbHelper is the object of facebook client
+ * This class interacts with facebook Graph API
  *
+ * @see com.restfb
  * @author Yaara Shoham
  */
 public class FbHelper {
@@ -26,8 +30,8 @@ public class FbHelper {
     String accessToken;
 
     public FbHelper(String accessToken){
-        this.accessToken=accessToken;
-        facebookClient=new DefaultFacebookClient(accessToken,com.restfb.Version.LATEST);
+        this.accessToken = accessToken;
+        facebookClient = new DefaultFacebookClient(accessToken,com.restfb.Version.LATEST);
     }
     
     public List<Page> getAllLikes(){
@@ -53,7 +57,7 @@ public class FbHelper {
         return pages;
     }
     
-    private static com.fbapp.model.User createFromFbUser(User user){
+    private static com.fbapp.model.User createFromFacebookUser(User user){
         com.fbapp.model.User user1 = new com.fbapp.model.User();
         user1.birthday_as_date = user.getBirthdayAsDate();
         user1.location = user.getLocation() == null? null : user.getLocation().getName();
@@ -69,7 +73,7 @@ public class FbHelper {
         //User user = facebookClient.fetchObject("me",User.class);
         Parameter parameter = Parameter.with("fields","id,name,birthday,picture.type(large),first_name,last_name,location,link");
         User user = facebookClient.fetchObject("me",User.class,parameter);
-        return createFromFbUser(user);
+        return createFromFacebookUser(user);
     }
     
     public List<Album> getAlbums(){
