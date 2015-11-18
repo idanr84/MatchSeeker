@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:clipChildren="false" android:id="@+id/container">
 
-    <com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack
+    <com.example.idanr.MatchSeeker.CustomUI.CardLayout.cardstack.CardStack
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cardLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:clipToPadding="false">
-    </com.example.idanr.tinderforjavaclass.CustomUI.CardLayout.cardstack.CardStack>
+    </com.example.idanr.MatchSeeker.CustomUI.CardLayout.cardstack.CardStack>
 
     <LinearLayout
         android:layout_width="wrap_content"
